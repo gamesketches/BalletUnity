@@ -5,82 +5,82 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 7267094118404333769
-    second: FirstPos
+    second: 1stPos
   - first:
       74: 5498317214748196069
-    second: FirstPosPlie
+    second: 1stPlie
   - first:
       74: -3367642055245157570
-    second: FirstPosReleve
+    second: 1stReleve
   - first:
       74: 917686824783179558
-    second: FirstPosTenduRight
+    second: 1stTenduR
   - first:
       74: -5527098831967601120
-    second: FirstPosTenduRightPlie
+    second: 1stTenduRPlie
   - first:
       74: 424566394019095466
-    second: FirstPosTenduRightReleve
+    second: 1stTenduRReleve
   - first:
       74: -1269210506372750926
-    second: 1stPTenduFront
+    second: 1stTenduRFront
   - first:
       74: -2537103782329149103
-    second: 1stPTenduFrontPlie
+    second: 1stTenduRFrontPlie
   - first:
       74: -3263538699784987342
-    second: 1stPTenduFrontReleve
+    second: 1stTenduRFrontReleve
   - first:
       74: -7051308166093593208
-    second: 1stPTenduBack
+    second: 1stTenduRBack
   - first:
       74: -4173190908368565572
-    second: 1stPTenduBackPlie
+    second: 1stTenduRBackPlie
   - first:
       74: -203773695376215785
-    second: 1stPTenduBackReleve
+    second: 1stTenduRBackReleve
   - first:
       74: 3861586846795252261
-    second: 1stPPasse
+    second: 1stPasse
   - first:
       74: 5406879175302515870
-    second: 1stPCoupe
+    second: 1stCoupe
   - first:
       74: -2213779942796583829
     second: 5thPos
   - first:
       74: -1467928864227795482
-    second: 5thPosPlie
+    second: 5thPlie
   - first:
       74: -1468414589288647891
-    second: 5thPosReleve
+    second: 5thReleve
   - first:
       74: -1637705466971913486
-    second: 5thPosTenduR
+    second: 5thTenduR
   - first:
       74: 6089941533632189860
-    second: 5thPosTenduRPlie
+    second: 5thTenduRPlie
   - first:
       74: -2811094069048305479
-    second: 5thPosTenduRReleve
+    second: 5thTenduRReleve
   - first:
       74: -2890668033399635406
-    second: 5thPosTenduFront
+    second: 5thTenduRFront
   - first:
       74: 8406766867432873979
-    second: 5thPosTenduFrontPlie
+    second: 5thTenduRFrontPlie
   - first:
       74: 8072112550339464804
-    second: 5thPosTenduFrontReleve
+    second: 5thTenduRFrontReleve
   - first:
       74: 8710228387530334140
-    second: 5thPosTenduBack
+    second: 5thTenduRBack
   - first:
       74: -9115816534297200940
-    second: 5thTenduBackPlie
+    second: 5thTenduRBackPlie
   - first:
       74: -7923964731144378545
-    second: 5thTenduBackReleve
+    second: 5thTenduRBackReleve
   - first:
       74: 9183140886717179306
     second: 5thPasse
@@ -116,7 +116,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: FirstPos
+      name: 1stPos
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 0
@@ -145,7 +145,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FirstPosPlie
+      name: 1stPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 10
@@ -174,7 +174,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FirstPosReleve
+      name: 1stReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 20
@@ -203,7 +203,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FirstPosTenduRight
+      name: 1stTenduR
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 30
@@ -232,7 +232,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FirstPosTenduRightPlie
+      name: 1stTenduRPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 40
@@ -261,7 +261,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FirstPosTenduRightReleve
+      name: 1stTenduRReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 50
@@ -290,7 +290,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPTenduFront
+      name: 1stTenduRFront
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 60
@@ -319,7 +319,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPTenduFrontPlie
+      name: 1stTenduRFrontPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 70
@@ -348,7 +348,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPTenduFrontReleve
+      name: 1stTenduRFrontReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 80
@@ -377,7 +377,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPTenduBack
+      name: 1stTenduRBack
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 90
@@ -406,7 +406,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPTenduBackPlie
+      name: 1stTenduRBackPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 100
@@ -435,7 +435,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPTenduBackReleve
+      name: 1stTenduRBackReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 110
@@ -464,7 +464,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPPasse
+      name: 1stPasse
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 120
@@ -493,7 +493,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1stPCoupe
+      name: 1stCoupe
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 130
@@ -551,7 +551,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosPlie
+      name: 5thPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 150
@@ -580,7 +580,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosReleve
+      name: 5thReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 160
@@ -609,7 +609,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduR
+      name: 5thTenduR
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 170
@@ -638,7 +638,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduRPlie
+      name: 5thTenduRPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 180
@@ -667,7 +667,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduRReleve
+      name: 5thTenduRReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 190
@@ -696,7 +696,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduFront
+      name: 5thTenduRFront
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 200
@@ -725,7 +725,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduFrontPlie
+      name: 5thTenduRFrontPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 210
@@ -754,7 +754,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduFrontReleve
+      name: 5thTenduRFrontReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 220
@@ -783,7 +783,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thPosTenduBack
+      name: 5thTenduRBack
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 230
@@ -812,7 +812,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thTenduBackPlie
+      name: 5thTenduRBackPlie
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 240
@@ -841,7 +841,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5thTenduBackReleve
+      name: 5thTenduRBackReleve
       takeName: UE4_Mannequin_Skeleton|UE4_Mannequin_SkeletonAction
       internalID: 0
       firstFrame: 250
