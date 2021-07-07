@@ -1,0 +1,33 @@
+{
+    "name": "BalletController",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "d241fc21-3f05-41e4-9dfd-6036090614d8",
+            "actions": [
+                {
+                    "name": "SwitchPosition",
+                    "type": "Button",
+                    "id": "27d937b0-c2da-4f5d-b7ae-a3acf204f584",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f0888698-4de6-4247-9537-c27b207ee2f1",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

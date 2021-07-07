@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BallerinaController : MonoBehaviour
 {
@@ -23,7 +24,17 @@ public class BallerinaController : MonoBehaviour
 	}
 
 	void GetLegInputs() {
-		float rightStickX = Input.GetAxis("RightStickX");
+		var gamepad = Gamepad.current;
+		if(gamepad == null) return;
+		if(gamepad.rightShoulder.wasPressedThisFrame) Debug.Log("Saw the right shoulder press!!");
+		Debug.Log(gamepad.rightStick.ReadValue());
+		Vector2 leftStick = gamepad.leftStick.ReadValue();
+		Vector2 rightStick = gamepad.rightStick.ReadValue();
+		animator.SetFloat("LeftStickX", leftStick.x);
+		animator.SetFloat("LeftStickY", leftStick.y);
+		animator.SetFloat("RightStickX", rightStick.x);
+		animator.SetFloat("RightStickY", rightStick.y);
+		/*float rightStickX = Input.GetAxis("RightStickX");
 		animator.SetFloat("RightStickX", rightStickX);
 		float rightStickY = Input.GetAxis("RightStickY");
 		animator.SetFloat("RightStickY", rightStickY);
@@ -31,10 +42,14 @@ public class BallerinaController : MonoBehaviour
 		animator.SetFloat("LeftStickX", leftStickX);
 		float leftStickY = Input.GetAxis("LeftStickY");
 		animator.SetFloat("LeftStickY", leftStickY);
+		*/
 	}
 
 	void GetButtonInputs() {
-		if(Input.GetButtonDown("SwitchPosition")) {
+		var gamepad = Gamepad.current;
+		if(gamepad == null) return;
+		if(gamepad.rightShoulder.wasPressedThisFrame) {
+		//if(Input.GetButtonDown("SwitchPosition")) {
 			if(animator.GetInteger("Position") == 1) {
 				animator.SetInteger("Position", 5);
 			} else {
