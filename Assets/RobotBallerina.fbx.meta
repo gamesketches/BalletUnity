@@ -90,9 +90,19 @@ ModelImporter:
   - first:
       74: -3287205691259063039
     second: 5thPosClosed
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Male_Body
+    second: {fileID: 2100000, guid: 09401885606cd4afda3371c651ed09eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_UE4Man_ChestLogo
+    second: {fileID: 2100000, guid: 5bc16a5950f414ed8bb7c69a34c73cdf, type: 2}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
