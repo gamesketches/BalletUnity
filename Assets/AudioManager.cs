@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
 		if(audioSource.isPlaying) {
 			songPosition = (float)(AudioSettings.dspTime - dspSongTime);
 			songPositionInBeats = songPosition / secPerBeat;
-			choreographer.UpdateCardPosition(songPosition);
+			choreographer.UpdateCardPosition(songPosition, songPositionInBeats);
 			if(Keyboard.current.aKey.wasPressedThisFrame) {
 				if(songPositionInBeats % 1 > 0.8f || songPositionInBeats % 1 < 0.2f) {
 					Debug.Log("Nice!");
