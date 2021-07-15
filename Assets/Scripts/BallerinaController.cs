@@ -26,8 +26,6 @@ public class BallerinaController : MonoBehaviour
 	void GetLegInputs() {
 		var gamepad = Gamepad.current;
 		if(gamepad == null) return;
-		if(gamepad.rightShoulder.wasPressedThisFrame) Debug.Log("Saw the right shoulder press!!");
-		Debug.Log(gamepad.rightStick.ReadValue());
 		Vector2 leftStick = gamepad.leftStick.ReadValue();
 		Vector2 rightStick = gamepad.rightStick.ReadValue();
 		animator.SetFloat("LeftStickX", leftStick.x);
@@ -50,5 +48,21 @@ public class BallerinaController : MonoBehaviour
 			bool positionOpen = animator.GetBool("Open");
 			animator.SetBool("Open", !positionOpen);
 		}
+	}
+
+	public Vector2 GetTenduValues() {
+		return new Vector2(animator.GetFloat("LeftStickX"), animator.GetFloat("LeftStickY"));
+	}
+	
+	public float GetPlieReleveValue() {
+		return animator.GetFloat("RightStickY");
+	}
+
+	public int GetPosition() {
+		return animator.GetInteger("Position");
+	}
+
+	public bool GetClosed() {
+		return !animator.GetBool("Open");
 	}
 }

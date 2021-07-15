@@ -11,6 +11,7 @@ public class ChoreographerController : MonoBehaviour
 	public Move[] choreography;
 	public GameObject moveCardPrefab;
 	public Transform canvas;
+	public BallerinaController dancer;
 	float secPerBeat;
 	Move curMove;
 
@@ -46,7 +47,36 @@ public class ChoreographerController : MonoBehaviour
 	}
 
 	void UpdateMoveScore(Move theMove) {
-		Debug.Log("You scoring points?!");
+		Debug.Log("Do " + theMove.moveType.ToString());
+		switch(theMove.moveType) {
+			case MoveType.TenduFront:
+			case MoveType.TenduSide:
+			case MoveType.TenduBack:
+				Vector2 tenduVals = dancer.GetTenduValues();
+				if(tenduVals.y < 0.2f) {
+					if((tenduVals.x > 0.2f && theMove.moveType == MoveType.TenduFront) ||
+						(tenduVals.x > -0.2f && tenduVals.x < 0.2f && theMove.moveType == MoveType.TenduSide) ||
+						 tenduVals.x < -0.2f && theMove.moveType == MoveType.TenduBack) {
+							theMove.AddPoints();
+					}
+				}
+			break;
+			case MoveType.Releve:
+				if(dancer.GetPlieReleveValue() > 0.2f) theMove.AddPoints();
+			break;
+			case MoveType.Plie:
+				if(dancer.GetPlieReleveValue() < -0.2f) theMove.AddPoints();
+			break;
+			case MoveType.SwitchPosition:
+				Debug.Log("Not sure how to code position switching yet....");
+				theMove.AddPoints();
+			break;
+			case MoveType.CloseBack:
+				if(dancer.GetClosed()) {
+					theMove.AddPoints();
+				}
+			break;
+		}
 	}
 }
 
@@ -68,5 +98,10 @@ public class Move {
 		duration = moveDuration;
 		pointsScored = 0;
 		rectTransform = null;
+	}
+
+	public void AddPoints() {
+		Debug.Log(pointsScored);
+		pointsScored += Time.deltaTime;
 	}
 }

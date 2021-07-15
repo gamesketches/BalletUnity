@@ -382,16 +382,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choreography:
   - moveType: 0
-    startBeat: 0
+    startBeat: 1
     trueStartBeat: 0
     targetBeat: 0
+    duration: 5
+    rectTransform: {fileID: 0}
   - moveType: 3
-    startBeat: 0
+    startBeat: 10
     trueStartBeat: 0
     targetBeat: 0
+    duration: 5
+    rectTransform: {fileID: 0}
   moveCardPrefab: {fileID: 431145801571510930, guid: 0821cddacb7194cb3bfd654c8b02e87a,
     type: 3}
   canvas: {fileID: 1947567960}
+  dancer: {fileID: 15169174}
 --- !u!4 &381764576
 Transform:
   m_ObjectHideFlags: 0
@@ -957,6 +962,7 @@ MonoBehaviour:
   songPosition: 0
   songPositionInBeats: 0
   dspSongTime: 0
+  choreographer: {fileID: 381764575}
 --- !u!4 &1657339641
 Transform:
   m_ObjectHideFlags: 0
