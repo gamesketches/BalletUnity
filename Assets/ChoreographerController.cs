@@ -16,7 +16,7 @@ public class ChoreographerController : MonoBehaviour
 	public Image songTimeLine;
 	public Vector2 songTimeLinePos;
 	public float beatVisualSize;
-	public float beatsShownInAdvance;
+	public Text overallScore;
 	Move curMove;
 
     // Start is called before the first frame update
@@ -26,7 +26,11 @@ public class ChoreographerController : MonoBehaviour
 			GameObject newMoveCard = Instantiate(moveCardPrefab, canvas);
 			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(choreography[i].moveType.ToString());
 			choreography[i].rectTransform = newMoveCard.GetComponent<RectTransform>();
-			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);//new Vector2(-100f, -63.1f + (i * -100f));
+			Vector2 cardDimensions = choreography[i].rectTransform.sizeDelta;
+			cardDimensions.y = beatVisualSize * choreography[i].duration;
+			Debug.Log(cardDimensions);
+			choreography[i].rectTransform.sizeDelta = cardDimensions;
+			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);
 		}
 		songTimeLine.GetComponent<RectTransform>().anchoredPosition = songTimeLinePos;
 		songTimeLine.transform.SetAsLastSibling();
@@ -35,6 +39,7 @@ public class ChoreographerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		UpdateOverallScore();
     }
 
 	public void GetSongDetails(float secondsPerBeat) {
@@ -48,11 +53,18 @@ public class ChoreographerController : MonoBehaviour
 			theMove.rectTransform.anchoredPosition = 
 				Vector2.LerpUnclamped(songTimeLinePos, 
 					songTimeLinePos - new Vector2(0, beatVisualSize), theMove.startBeat - currentBeat);
-			//theMove.rectTransform.anchoredPosition = new Vector2(-100f, -63.1f + (theMove.startBeat * secPerBeat * -100f) + songTime);
 			if(theMove.startBeat < currentBeat && theMove.startBeat + theMove.duration > currentBeat) {
 				UpdateMoveScore(theMove);
 			}
 		}
+	}
+
+	void UpdateOverallScore() {
+		int curScore = 0;
+		foreach(Move move in choreography) {
+			curScore += (int)(move.GetPoints() * 100);
+		}
+		overallScore.text = curScore.ToString();
 	}
 
 	void UpdateMoveScore(Move theMove) {
@@ -112,5 +124,9 @@ public class Move {
 	public void AddPoints() {
 		Debug.Log(pointsScored);
 		pointsScored += Time.deltaTime;
+	}
+
+	public float GetPoints() {
+		return pointsScored;
 	}
 }
