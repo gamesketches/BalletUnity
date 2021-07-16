@@ -13,6 +13,10 @@ public class ChoreographerController : MonoBehaviour
 	public Transform canvas;
 	public BallerinaController dancer;
 	float secPerBeat;
+	public Image songTimeLine;
+	public Vector2 songTimeLinePos;
+	public float beatVisualSize;
+	public float beatsShownInAdvance;
 	Move curMove;
 
     // Start is called before the first frame update
@@ -22,8 +26,10 @@ public class ChoreographerController : MonoBehaviour
 			GameObject newMoveCard = Instantiate(moveCardPrefab, canvas);
 			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(choreography[i].moveType.ToString());
 			choreography[i].rectTransform = newMoveCard.GetComponent<RectTransform>();
-			choreography[i].rectTransform.anchoredPosition = new Vector2(-100f, -63.1f + (i * -100f));
+			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);//new Vector2(-100f, -63.1f + (i * -100f));
 		}
+		songTimeLine.GetComponent<RectTransform>().anchoredPosition = songTimeLinePos;
+		songTimeLine.transform.SetAsLastSibling();
     }
 
     // Update is called once per frame
@@ -39,7 +45,10 @@ public class ChoreographerController : MonoBehaviour
 	public void UpdateCardPosition(float songTime, float currentBeat) {
 		for(int i = 0; i < choreography.Length; i++) {
 			Move theMove = choreography[i];
-			theMove.rectTransform.anchoredPosition = new Vector2(-100f, -63.1f + (theMove.startBeat * secPerBeat * -100f) + songTime);
+			theMove.rectTransform.anchoredPosition = 
+				Vector2.LerpUnclamped(songTimeLinePos, 
+					songTimeLinePos - new Vector2(0, beatVisualSize), theMove.startBeat - currentBeat);
+			//theMove.rectTransform.anchoredPosition = new Vector2(-100f, -63.1f + (theMove.startBeat * secPerBeat * -100f) + songTime);
 			if(theMove.startBeat < currentBeat && theMove.startBeat + theMove.duration > currentBeat) {
 				UpdateMoveScore(theMove);
 			}
