@@ -18,20 +18,13 @@ public class ChoreographerController : MonoBehaviour
 	public float beatVisualSize;
 	public Text overallScore;
 	Move curMove;
+	public TextAsset choreographyFile;
 
     // Start is called before the first frame update
     void Awake()
     {
-		for(int i = 0; i < choreography.Length; i++) {
-			GameObject newMoveCard = Instantiate(moveCardPrefab, canvas);
-			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(choreography[i].moveType.ToString());
-			choreography[i].rectTransform = newMoveCard.GetComponent<RectTransform>();
-			Vector2 cardDimensions = choreography[i].rectTransform.sizeDelta;
-			cardDimensions.y = beatVisualSize * choreography[i].duration;
-			Debug.Log(cardDimensions);
-			choreography[i].rectTransform.sizeDelta = cardDimensions;
-			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);
-		}
+		LoadMoves();
+		PlaceMoveCards();
 		songTimeLine.GetComponent<RectTransform>().anchoredPosition = songTimeLinePos;
 		songTimeLine.transform.SetAsLastSibling();
     }
@@ -97,6 +90,38 @@ public class ChoreographerController : MonoBehaviour
 					theMove.AddPoints();
 				}
 			break;
+		}
+	}
+
+	void LoadMoves() {
+		string[] fileLines = choreographyFile.text.Split('\n');
+		Debug.Log(fileLines.Length);
+		choreography = new Move[fileLines.Length - 1];
+		for(int i = 1; i < fileLines.Length; i++){
+			string[] dataItems = fileLines[i].Split(',');
+			Debug.Log(dataItems[0]); // MoveType
+			Debug.Log(dataItems[1]); // StartBeat
+			Debug.Log(dataItems[2]); // trueStartBeat
+			Debug.Log(dataItems[3]); // targetBeat
+			Debug.Log(dataItems[4]); // duration
+			choreography[i - 1] = new Move((MoveType)System.Enum.Parse(typeof(MoveType), dataItems[0]), // MoveType
+									float.Parse(dataItems[1]),
+									float.Parse(dataItems[2]), 
+									float.Parse(dataItems[3]),
+									float.Parse(dataItems[4]));
+		}
+	}
+			
+	void PlaceMoveCards() {
+		for(int i = 0; i < choreography.Length; i++) {
+			GameObject newMoveCard = Instantiate(moveCardPrefab, canvas);
+			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(choreography[i].moveType.ToString());
+			choreography[i].rectTransform = newMoveCard.GetComponent<RectTransform>();
+			Vector2 cardDimensions = choreography[i].rectTransform.sizeDelta;
+			cardDimensions.y = beatVisualSize * choreography[i].duration;
+			Debug.Log(cardDimensions);
+			choreography[i].rectTransform.sizeDelta = cardDimensions;
+			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);
 		}
 	}
 }
