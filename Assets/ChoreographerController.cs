@@ -12,6 +12,7 @@ public class ChoreographerController : MonoBehaviour
 	public GameObject moveCardPrefab;
 	public Transform canvas;
 	public BallerinaController dancer;
+	BallerinaController[] cpuDancers;
 	float secPerBeat;
 	public Image songTimeLine;
 	public Vector2 songTimeLinePos;
@@ -25,6 +26,7 @@ public class ChoreographerController : MonoBehaviour
     {
 		LoadMoves();
 		PlaceMoveCards();
+		FindCPUDancers();
 		songTimeLine.GetComponent<RectTransform>().anchoredPosition = songTimeLinePos;
 		songTimeLine.transform.SetAsLastSibling();
     }
@@ -47,6 +49,7 @@ public class ChoreographerController : MonoBehaviour
 				Vector2.LerpUnclamped(songTimeLinePos, 
 					songTimeLinePos - new Vector2(0, beatVisualSize), theMove.startBeat - currentBeat);
 			if(theMove.startBeat < currentBeat && theMove.startBeat + theMove.duration > currentBeat) {
+				UpdateCPUDancers(theMove, currentBeat);
 				UpdateMoveScore(theMove);
 			}
 		}
@@ -93,6 +96,45 @@ public class ChoreographerController : MonoBehaviour
 		}
 	}
 
+	void UpdateCPUDancers(Move theMove, float currentBeat) {
+		Vector2 leftStick = Vector2.zero;
+		Vector2 rightStick = Vector2.zero;
+		float moveProgress = (currentBeat - theMove.startBeat) / theMove.duration;
+		switch(theMove.moveType) {
+			case MoveType.TenduFront:
+				leftStick.x = Mathf.SmoothStep(0, 1, moveProgress);
+				leftStick.y = -0.4f;
+				break;
+			case MoveType.TenduSide:
+				leftStick.y = Mathf.SmoothStep(0, 1, moveProgress);
+				leftStick.x = 0f;
+				break;
+			case MoveType.TenduBack:
+				leftStick.x = Mathf.SmoothStep(0, -1, moveProgress);
+				leftStick.y = -0.4f;
+				break;
+			case MoveType.Releve:
+				rightStick.y = Mathf.SmoothStep(0, 1, moveProgress);
+				break;
+			case MoveType.Plie:
+				rightStick.y = Mathf.SmoothStep(0, -1, moveProgress);
+				break;
+			case MoveType.SwitchPosition:
+				Debug.Log("CPUS are not sure how to code position switching yet....");
+				//theMove.AddPoints();
+			break;
+			case MoveType.CloseBack:
+				Debug.Log("CPUS are not sure how to close back....");
+				/*if(dancer.GetClosed()) {
+					theMove.AddPoints();
+				}*/
+			break;
+		}	
+		foreach(BallerinaController dancer in cpuDancers) {
+			dancer.SetLegInputs(leftStick, rightStick);
+		}
+	}
+
 	void LoadMoves() {
 		string[] fileLines = choreographyFile.text.Split('\n');
 		Debug.Log(fileLines.Length);
@@ -119,6 +161,12 @@ public class ChoreographerController : MonoBehaviour
 			choreography[i].rectTransform.sizeDelta = cardDimensions;
 			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);
 		}
+	}
+
+	void FindCPUDancers() {
+		GameObject[] cpuDancerObjs = GameObject.FindGameObjectsWithTag("Ballerina");
+		cpuDancers = new BallerinaController[cpuDancerObjs.Length];
+		for(int i = 0; i < cpuDancerObjs.Length; i++) { cpuDancers[i] = cpuDancerObjs[i].GetComponent<BallerinaController>();}
 	}
 }
 
