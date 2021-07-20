@@ -104,11 +104,7 @@ public class ChoreographerController : MonoBehaviour
 			Debug.Log(dataItems[2]); // trueStartBeat
 			Debug.Log(dataItems[3]); // targetBeat
 			Debug.Log(dataItems[4]); // duration
-			choreography[i - 1] = new Move((MoveType)System.Enum.Parse(typeof(MoveType), dataItems[0]), // MoveType
-									float.Parse(dataItems[1]),
-									float.Parse(dataItems[2]), 
-									float.Parse(dataItems[3]),
-									float.Parse(dataItems[4]));
+			choreography[i - 1] = new Move(dataItems[0], dataItems[1], dataItems[2], dataItems[3], dataItems[4]);
 		}
 	}
 			
@@ -142,6 +138,16 @@ public class Move {
 		trueStartBeat = trueStartingBeat;
 		targetBeat = theTargetBeat;
 		duration = moveDuration;
+		pointsScored = 0;
+		rectTransform = null;
+	}
+
+	public Move(string theMove, string startingBeat, string trueStartingBeat, string theTargetBeat, string moveDuration) {
+		moveType = (MoveType)System.Enum.Parse(typeof(MoveType), theMove);
+		startBeat = float.Parse(startingBeat);
+		trueStartBeat = float.Parse(trueStartingBeat);
+		targetBeat = float.Parse(theTargetBeat);
+		duration = float.Parse(moveDuration);
 		pointsScored = 0;
 		rectTransform = null;
 	}
