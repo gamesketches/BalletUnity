@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class BallerinaController : MonoBehaviour
 {
 	Animator animator;
+	public bool playerControlled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,9 @@ public class BallerinaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		GetInputs();
+		if(playerControlled) {
+			GetInputs();
+		}
     }
 
 	void GetInputs() {
@@ -28,6 +31,14 @@ public class BallerinaController : MonoBehaviour
 		if(gamepad == null) return;
 		Vector2 leftStick = gamepad.leftStick.ReadValue();
 		Vector2 rightStick = gamepad.rightStick.ReadValue();
+		SetLegInputs(leftStick, rightStick);
+		/*animator.SetFloat("LeftStickX", leftStick.x);
+		animator.SetFloat("LeftStickY", leftStick.y);
+		animator.SetFloat("RightStickX", rightStick.x);
+		animator.SetFloat("RightStickY", rightStick.y);*/
+	}
+
+	public void SetLegInputs(Vector2 leftStick, Vector2 rightStick) {
 		animator.SetFloat("LeftStickX", leftStick.x);
 		animator.SetFloat("LeftStickY", leftStick.y);
 		animator.SetFloat("RightStickX", rightStick.x);
