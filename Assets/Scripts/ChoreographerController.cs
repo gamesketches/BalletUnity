@@ -157,7 +157,6 @@ public class ChoreographerController : MonoBehaviour
 			choreography[i].rectTransform = newMoveCard.GetComponent<RectTransform>();
 			Vector2 cardDimensions = choreography[i].rectTransform.sizeDelta;
 			cardDimensions.y = beatVisualSize * choreography[i].duration;
-			Debug.Log(cardDimensions);
 			choreography[i].rectTransform.sizeDelta = cardDimensions;
 			choreography[i].rectTransform.anchoredPosition = Vector2.LerpUnclamped(songTimeLinePos, songTimeLinePos + new Vector2(0, beatVisualSize), choreography[i].startBeat);
 		}
