@@ -12,10 +12,13 @@ public class TrainingModeController : MonoBehaviour
 	int exerciseProgress;
 	bool returnedToNeutral;
 	public BallerinaController dancer;
+	AudioSource voiceOver;
+	public bool randomExercises;
 
     // Start is called before the first frame update
     void Start()
     {
+		voiceOver = GetComponent<AudioSource>();
         PlaceMoveCards();
 		exerciseProgress = 0;
 		returnedToNeutral = true;
@@ -55,6 +58,7 @@ public class TrainingModeController : MonoBehaviour
 			 
 
 	void MoveSuccess() {
+		SayMoveName(exercises[exerciseProgress].ToString());
 		exerciseCards[exerciseProgress].GetComponent<Image>().color = Color.green;
 		exerciseProgress++;
 		if(exerciseProgress < exerciseCards.Length && 
@@ -71,6 +75,21 @@ public class TrainingModeController : MonoBehaviour
 			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(exercises[i].ToString());
 			tempExerciseCards.Add(newMoveCard);
 		}
+		StartCoroutine(SayMoveNames());
 		exerciseCards = tempExerciseCards.ToArray();
 	}
+
+	void SayMoveName(string moveName) {
+		voiceOver.clip = Resources.Load<AudioClip>(moveName);
+		voiceOver.Play();
+	}
+
+	IEnumerator SayMoveNames() {
+		foreach(MoveType move in exercises) {
+			SayMoveName(move.ToString());
+			yield return new WaitForSeconds(voiceOver.clip.length);
+		}
+	}
+	
+		
 }
