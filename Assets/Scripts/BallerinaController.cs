@@ -75,4 +75,10 @@ public class BallerinaController : MonoBehaviour
 	public bool GetClosed() {
 		return !animator.GetBool("Open");
 	}
+
+	public void SetPosition(int newPosition) {
+		if(animator.GetInteger("Position") != newPosition) {
+			animator.SetInteger("Position", newPosition);
+		}
+	}
 }

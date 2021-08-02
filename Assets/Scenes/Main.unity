@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 381764576}
   - component: {fileID: 381764575}
   m_Layer: 0
-  m_Name: Judge
+  m_Name: Choreographer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,6 +530,12 @@ MonoBehaviour:
     targetBeat: 0
     duration: 5
     rectTransform: {fileID: 0}
+  - moveType: 6
+    startBeat: 8
+    trueStartBeat: 0
+    targetBeat: 0
+    duration: 0.3
+    rectTransform: {fileID: 0}
   moveCardPrefab: {fileID: 431145801571510930, guid: 0821cddacb7194cb3bfd654c8b02e87a,
     type: 3}
   canvas: {fileID: 1947567960}
@@ -538,7 +544,7 @@ MonoBehaviour:
   songTimeLinePos: {x: -100, y: -63.1}
   beatVisualSize: 100
   overallScore: {fileID: 342748153}
-  choreographyFile: {fileID: 4900000, guid: 21a64defb81174bb4943ca74cfbc6c5a, type: 3}
+  choreographyFile: {fileID: 0}
 --- !u!4 &381764576
 Transform:
   m_ObjectHideFlags: 0

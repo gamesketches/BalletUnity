@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum MoveType {TenduFront, TenduSide, TenduBack, Releve, Plie, SwitchPosition, CloseBack};
+public enum MoveType {TenduFront, TenduSide, TenduBack, Releve, Plie, SwitchPosition, CloseFront, CloseBack};
 
 public class ChoreographerController : MonoBehaviour
 {
@@ -20,10 +20,14 @@ public class ChoreographerController : MonoBehaviour
 	public Text overallScore;
 	Move curMove;
 	public TextAsset choreographyFile;
+	Vector2 cpuLeftStick;
+	Vector2 cpuRightStick;
 
     // Start is called before the first frame update
     void Awake()
     {
+		cpuLeftStick = Vector2.zero;
+		cpuRightStick = Vector2.zero;
 		LoadMoves();
 		PlaceMoveCards();
 		FindCPUDancers();
@@ -97,31 +101,35 @@ public class ChoreographerController : MonoBehaviour
 	}
 
 	void UpdateCPUDancers(Move theMove, float currentBeat) {
-		Vector2 leftStick = Vector2.zero;
-		Vector2 rightStick = Vector2.zero;
+		Vector2 leftStick = cpuLeftStick;
+		Vector2 rightStick = cpuRightStick;
 		float moveProgress = (currentBeat - theMove.startBeat) / theMove.duration;
 		switch(theMove.moveType) {
 			case MoveType.TenduFront:
-				leftStick.x = Mathf.SmoothStep(0, 1, moveProgress);
-				leftStick.y = -0.4f;
+				leftStick.x = Mathf.SmoothStep(cpuLeftStick.x, 1, moveProgress);
+				leftStick.y = Mathf.SmoothStep(cpuRightStick.y, -0.4f, moveProgress);
 				break;
 			case MoveType.TenduSide:
-				leftStick.y = Mathf.SmoothStep(0, 1, moveProgress);
-				leftStick.x = 0f;
+				leftStick.y = Mathf.SmoothStep(cpuLeftStick.y, 1, moveProgress);
+				leftStick.x = Mathf.SmoothStep(cpuLeftStick.x, 0f, moveProgress);
 				break;
 			case MoveType.TenduBack:
-				leftStick.x = Mathf.SmoothStep(0, -1, moveProgress);
-				leftStick.y = -0.4f;
+				leftStick.x = Mathf.SmoothStep(cpuLeftStick.x, -1, moveProgress);
+				leftStick.y = Mathf.SmoothStep(cpuRightStick.y, -0.4f, moveProgress);
 				break;
 			case MoveType.Releve:
-				rightStick.y = Mathf.SmoothStep(0, 1, moveProgress);
+				rightStick.y = Mathf.SmoothStep(cpuRightStick.y, 1, moveProgress);
 				break;
 			case MoveType.Plie:
-				rightStick.y = Mathf.SmoothStep(0, -1, moveProgress);
+				rightStick.y = Mathf.SmoothStep(cpuRightStick.y, -1, moveProgress);
 				break;
 			case MoveType.SwitchPosition:
 				Debug.Log("CPUS are not sure how to code position switching yet....");
 				//theMove.AddPoints();
+			break;
+			case MoveType.CloseFront:
+				leftStick = Vector2.Lerp(cpuLeftStick, Vector2.zero, moveProgress);
+				rightStick = Vector2.Lerp(cpuRightStick, Vector2.zero, moveProgress);
 			break;
 			case MoveType.CloseBack:
 				Debug.Log("CPUS are not sure how to close back....");
@@ -130,12 +138,17 @@ public class ChoreographerController : MonoBehaviour
 				}*/
 			break;
 		}	
+		if(moveProgress > 0.85f) {
+			cpuLeftStick = leftStick;
+			cpuRightStick = rightStick;
+		}
 		foreach(BallerinaController dancer in cpuDancers) {
 			dancer.SetLegInputs(leftStick, rightStick);
 		}
 	}
 
 	void LoadMoves() {
+		if(choreographyFile == null) return;
 		string[] fileLines = choreographyFile.text.Split('\n');
 		Debug.Log(fileLines.Length);
 		choreography = new Move[fileLines.Length - 1];
