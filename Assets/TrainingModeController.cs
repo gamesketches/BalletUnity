@@ -19,6 +19,14 @@ public class TrainingModeController : MonoBehaviour
     void Start()
     {
 		voiceOver = GetComponent<AudioSource>();
+		if(randomExercises) {
+			int numExercises = 3;
+			exercises = new MoveType[numExercises];
+			MoveType[] possibleExercises = new MoveType[] {MoveType.TenduFront, MoveType.TenduSide, MoveType.TenduBack};
+			for(int i = 0; i < numExercises; i++) {
+				exercises[i] = possibleExercises[Mathf.FloorToInt(Random.value * numExercises)];
+			}
+		}
         PlaceMoveCards();
 		exerciseProgress = 0;
 		returnedToNeutral = true;
@@ -52,7 +60,17 @@ public class TrainingModeController : MonoBehaviour
 				if(tenduVals.x < -0.8f) {
 					MoveSuccess();
 				}
-			break;
+				break;
+			case MoveType.Plie:
+				if(tenduVals.y < -0.8f) {
+					MoveSuccess();
+				}
+				break;
+			case MoveType.Releve:
+				if(tenduVals.y > 0.8f) {
+					MoveSuccess();
+				}
+				break;
 		}
 	}
 			 
