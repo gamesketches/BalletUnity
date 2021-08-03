@@ -41,6 +41,7 @@ public class TrainingModeController : MonoBehaviour
 	void CheckCurMove() {
 		if(exerciseProgress >= exercises.Length) return;
 		Vector2 tenduVals = dancer.GetTenduValues();
+		float nonWorkingLeg = dancer.GetPlieReleveValue();
 		if(!returnedToNeutral) {
 			if(Mathf.Abs(tenduVals.x) < 0.1f && Mathf.Abs(tenduVals.y) < 0.1f) returnedToNeutral = true;
 			else return;
@@ -52,7 +53,7 @@ public class TrainingModeController : MonoBehaviour
 				}
 				break;
 			case MoveType.TenduSide:
-				if(tenduVals.y > 0.8f && tenduVals.x < 0.2f && tenduVals.x > -0.2f) {
+				if(tenduVals.y < -0.8f && tenduVals.x < 0.2f && tenduVals.x > -0.2f) {
 					MoveSuccess();
 				}
 				break;
@@ -62,12 +63,12 @@ public class TrainingModeController : MonoBehaviour
 				}
 				break;
 			case MoveType.Plie:
-				if(tenduVals.y < -0.8f) {
+				if(nonWorkingLeg < -0.8f) {
 					MoveSuccess();
 				}
 				break;
 			case MoveType.Releve:
-				if(tenduVals.y > 0.8f) {
+				if(nonWorkingLeg > 0.8f) {
 					MoveSuccess();
 				}
 				break;
@@ -93,13 +94,15 @@ public class TrainingModeController : MonoBehaviour
 			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(exercises[i].ToString());
 			tempExerciseCards.Add(newMoveCard);
 		}
-		StartCoroutine(SayMoveNames());
+		//StartCoroutine(SayMoveNames());
 		exerciseCards = tempExerciseCards.ToArray();
 	}
 
 	void SayMoveName(string moveName) {
 		voiceOver.clip = Resources.Load<AudioClip>(moveName);
-		voiceOver.Play();
+		Debug.Log(voiceOver.clip);
+		if(voiceOver.clip != null)
+			voiceOver.Play();
 	}
 
 	IEnumerator SayMoveNames() {

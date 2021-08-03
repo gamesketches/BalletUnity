@@ -41,7 +41,7 @@ public class BallerinaController : MonoBehaviour
 		animator.SetFloat("RightStickX", rightStick.x);
 		animator.SetFloat("RightStickY", rightStick.y);
 		float tenduDistance = Mathf.Abs(leftStick.x) + Mathf.Abs(leftStick.y);
-		if(leftStick.y > 0.05f) tenduDistance = 0;
+		if(leftStick.y > 0.3f) tenduDistance = 0;
 		animator.SetFloat("TenduDistance", tenduDistance);
 		if(movementGuide)
 			movementGuide.UpdateInputs(leftStick, rightStick);

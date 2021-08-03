@@ -945,7 +945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveCardPrefab: {fileID: 431145801571510930, guid: 0821cddacb7194cb3bfd654c8b02e87a,
     type: 3}
-  exercises: 0000000001000000
+  exercises: 040000000100000003000000
   canvas: {fileID: 345734534}
   dancer: {fileID: 15169174}
   randomExercises: 1
