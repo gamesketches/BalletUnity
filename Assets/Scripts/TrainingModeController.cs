@@ -20,11 +20,11 @@ public class TrainingModeController : MonoBehaviour
     {
 		voiceOver = GetComponent<AudioSource>();
 		if(randomExercises) {
-			int numExercises = 3;
+			int numExercises = 4;
 			exercises = new MoveType[numExercises];
 			MoveType[] possibleExercises = new MoveType[] {MoveType.TenduFront, MoveType.TenduSide, MoveType.TenduBack};
 			for(int i = 0; i < numExercises; i++) {
-				exercises[i] = possibleExercises[Mathf.FloorToInt(Random.value * numExercises)];
+				exercises[i] = possibleExercises[Mathf.FloorToInt(Random.value * possibleExercises.Length)];
 			}
 		}
         PlaceMoveCards();
@@ -43,7 +43,7 @@ public class TrainingModeController : MonoBehaviour
 		Vector2 tenduVals = dancer.GetTenduValues();
 		float nonWorkingLeg = dancer.GetPlieReleveValue();
 		if(!returnedToNeutral) {
-			if(Mathf.Abs(tenduVals.x) < 0.1f && Mathf.Abs(tenduVals.y) < 0.1f) returnedToNeutral = true;
+			if(ReturnedToNeutral()) returnedToNeutral = true;
 			else return;
 		}
 		switch(exercises[exerciseProgress]) {
@@ -79,6 +79,7 @@ public class TrainingModeController : MonoBehaviour
 	void MoveSuccess() {
 		SayMoveName(exercises[exerciseProgress].ToString());
 		exerciseCards[exerciseProgress].GetComponent<Image>().color = Color.green;
+		StartCoroutine(CollapseCard(exerciseProgress));
 		exerciseProgress++;
 		if(exerciseProgress < exerciseCards.Length && 
 				exercises[exerciseProgress] == exercises[exerciseProgress - 1]) {
@@ -112,5 +113,14 @@ public class TrainingModeController : MonoBehaviour
 		}
 	}
 	
-		
+	IEnumerator CollapseCard(int index) {
+		yield return new WaitForSeconds(1.0f); 
+		exerciseCards[index].GetComponent<RectTransform>().sizeDelta = new Vector2(-1, 0);
+	}
+
+	bool ReturnedToNeutral() {
+		Vector2 tenduVals = dancer.GetTenduValues();
+		float nonWorkingLeg = dancer.GetPlieReleveValue();
+		return Mathf.Abs(tenduVals.x) < 0.1f && Mathf.Abs(tenduVals.y) < 0.1f && Mathf.Abs(nonWorkingLeg) < 0.2f;
+	}
 }

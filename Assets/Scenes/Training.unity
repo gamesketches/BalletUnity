@@ -390,7 +390,7 @@ RectTransform:
   m_Father: {fileID: 1947567960}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.74}
+  m_AnchorMin: {x: 0.07, y: 0.74}
   m_AnchorMax: {x: 0.96, y: 0.96}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -945,10 +945,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveCardPrefab: {fileID: 431145801571510930, guid: 0821cddacb7194cb3bfd654c8b02e87a,
     type: 3}
-  exercises: 040000000100000003000000
+  exercises: 0400000001000000030000000300000003000000030000000300000003000000
   canvas: {fileID: 345734534}
   dancer: {fileID: 15169174}
-  randomExercises: 1
+  randomExercises: 0
 --- !u!4 &1638969130
 Transform:
   m_ObjectHideFlags: 0
