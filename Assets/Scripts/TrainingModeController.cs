@@ -95,7 +95,7 @@ public class TrainingModeController : MonoBehaviour
 			newMoveCard.GetComponent<Image>().sprite = Resources.Load<Sprite>(exercises[i].ToString());
 			tempExerciseCards.Add(newMoveCard);
 		}
-		//StartCoroutine(SayMoveNames());
+		StartCoroutine(SayMoveNames());
 		exerciseCards = tempExerciseCards.ToArray();
 	}
 

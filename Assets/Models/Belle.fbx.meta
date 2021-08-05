@@ -78,7 +78,17 @@ ModelImporter:
   - first:
       74: 544362008059193437
     second: BallerinaPoses
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Male_Body
+    second: {fileID: 2100000, guid: 8807ad159db354410a46e1df98166d56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_UE4Man_ChestLogo
+    second: {fileID: 2100000, guid: 3e4acd56547c646efa8288a927f46905, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
