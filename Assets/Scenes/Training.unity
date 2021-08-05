@@ -141,37 +141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 1
   movementGuide: {fileID: 422198034}
---- !u!114 &15169175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 15169173}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 5c05921a5d8444fceaae18e531bb4e9d,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!4 &15169176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9d09d9cd650b740e4917165375142b2e,
@@ -590,6 +559,116 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &612184398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 804170491}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &612184399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612184398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c327778a7744d68bf4122bed546fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControlled: 1
+  movementGuide: {fileID: 422198034}
+--- !u!1001 &804170491
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8700617353114198275, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65702495048144492, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_Name
+      value: Belle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 08a5f8e9c3a834dac9b359a97b91e876,
+        type: 2}
+    - target: {fileID: 5866666021909216657, guid: 45188f442dd8d41aba6555c7bfa51f4f,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 45188f442dd8d41aba6555c7bfa51f4f, type: 3}
 --- !u!1001 &834178391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -716,6 +795,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerBallerina
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9d09d9cd650b740e4917165375142b2e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9d09d9cd650b740e4917165375142b2e,
         type: 3}
@@ -947,7 +1031,7 @@ MonoBehaviour:
     type: 3}
   exercises: 0400000001000000030000000300000003000000030000000300000003000000
   canvas: {fileID: 345734534}
-  dancer: {fileID: 15169174}
+  dancer: {fileID: 612184399}
   randomExercises: 0
 --- !u!4 &1638969130
 Transform:
