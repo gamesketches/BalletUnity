@@ -12,6 +12,7 @@ public class TrainingModeController : MonoBehaviour
 	int exerciseProgress;
 	bool returnedToNeutral;
 	public BallerinaController dancer;
+	public BallerinaController preview;
 	AudioSource voiceOver;
 	public bool randomExercises;
 
@@ -28,6 +29,7 @@ public class TrainingModeController : MonoBehaviour
 			}
 		}
         PlaceMoveCards();
+		UpdatePreview();
 		exerciseProgress = 0;
 		returnedToNeutral = true;
     }
@@ -74,7 +76,43 @@ public class TrainingModeController : MonoBehaviour
 				break;
 		}
 	}
-			 
+	
+	void UpdatePreview() {
+		Vector2 leftStick = Vector2.zero;
+		Vector2 rightStick = Vector2.zero;
+		switch(exercises[exerciseProgress]) {
+			case MoveType.TenduFront:
+				leftStick.x = 1;
+				leftStick.y = -0.1f;
+				rightStick.y = 0;
+				break;
+			case MoveType.TenduSide:
+				leftStick.y = -1;
+				leftStick.x = 0f;
+				break;
+			case MoveType.TenduBack:
+				leftStick.x = -1;
+				leftStick.y = -0.1f;
+				break;
+			case MoveType.Releve:
+				rightStick.y = 1;
+				break;
+			case MoveType.Plie:
+				rightStick.y = -1;
+				break;
+			case MoveType.CloseFront:
+				leftStick = Vector2.zero;
+				rightStick = Vector2.zero;
+			break;
+			case MoveType.CloseBack:
+				Debug.Log("CPUS are not sure how to close back....");
+				/*if(dancer.GetClosed()) {
+					theMove.AddPoints();
+				}*/
+			break;
+		}	
+		preview.SetLegInputs(leftStick, rightStick);
+	}
 
 	void MoveSuccess() {
 		SayMoveName(exercises[exerciseProgress].ToString());
