@@ -142,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 1
   movementGuide: {fileID: 422198034}
+  rotateSpeed: 0
 --- !u!4 &15169176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9d09d9cd650b740e4917165375142b2e,
@@ -580,6 +581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 1
   movementGuide: {fileID: 422198034}
+  rotateSpeed: 200
 --- !u!1001 &804170491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -936,6 +938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 0
   movementGuide: {fileID: 422198034}
+  rotateSpeed: 0
 --- !u!1 &1062424919
 GameObject:
   m_ObjectHideFlags: 0

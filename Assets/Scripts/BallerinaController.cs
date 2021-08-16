@@ -8,6 +8,8 @@ public class BallerinaController : MonoBehaviour
 	Animator animator;
 	public bool playerControlled = false;
 	public MoveGuideBehavior movementGuide;
+	bool holdPosition = false;
+	public float rotateSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +25,8 @@ public class BallerinaController : MonoBehaviour
     }
 
 	void GetInputs() {
-		GetLegInputs();
 		GetButtonInputs();
+		GetLegInputs();
 	}
 
 	void GetLegInputs() {
@@ -36,6 +38,12 @@ public class BallerinaController : MonoBehaviour
 	}
 
 	public void SetLegInputs(Vector2 leftStick, Vector2 rightStick) {
+		if(holdPosition) {
+			if(Mathf.Abs(rightStick.x) > 0.1f) {
+				transform.Rotate(0, rightStick.x * rotateSpeed * Time.deltaTime * -1, 0);
+			}
+			return;
+		}
 		animator.SetFloat("LeftStickX", leftStick.x);
 		animator.SetFloat("LeftStickY", leftStick.y);
 		animator.SetFloat("RightStickX", rightStick.x);
@@ -60,6 +68,11 @@ public class BallerinaController : MonoBehaviour
 		if(gamepad.leftShoulder.wasPressedThisFrame) {
 			bool positionOpen = animator.GetBool("Open");
 			animator.SetBool("Open", !positionOpen);
+		}
+		if(gamepad.rightTrigger.isPressed) {
+			holdPosition = true;
+		} else {
+			holdPosition = false;
 		}
 	}
 
