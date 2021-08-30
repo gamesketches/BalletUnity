@@ -141,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 1
   movementGuide: {fileID: 422198034}
+  rotateSpeed: 0
 --- !u!114 &15169175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 0
   movementGuide: {fileID: 476108778}
+  rotateSpeed: 0
 --- !u!1 &342748151
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 0
   movementGuide: {fileID: 1810441501}
+  rotateSpeed: 0
 --- !u!114 &429177146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,6 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControlled: 0
   movementGuide: {fileID: 873311879}
+  rotateSpeed: 0
 --- !u!4 &539416721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5388706932149115671, guid: 9d09d9cd650b740e4917165375142b2e,
@@ -1223,7 +1227,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 74ac79cb74f7549de84188b42bc10ed4, type: 2}
+      objectReference: {fileID: 22100000, guid: 08a5f8e9c3a834dac9b359a97b91e876,
+        type: 2}
     - target: {fileID: 5866666021909216657, guid: 9d09d9cd650b740e4917165375142b2e,
         type: 3}
       propertyPath: m_ApplyRootMotion
@@ -1631,7 +1636,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 74ac79cb74f7549de84188b42bc10ed4, type: 2}
+      objectReference: {fileID: 22100000, guid: 08a5f8e9c3a834dac9b359a97b91e876,
+        type: 2}
     - target: {fileID: 5866666021909216657, guid: 9d09d9cd650b740e4917165375142b2e,
         type: 3}
       propertyPath: m_ApplyRootMotion
@@ -1775,7 +1781,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 74ac79cb74f7549de84188b42bc10ed4, type: 2}
+      objectReference: {fileID: 22100000, guid: 08a5f8e9c3a834dac9b359a97b91e876,
+        type: 2}
     - target: {fileID: 5866666021909216657, guid: 9d09d9cd650b740e4917165375142b2e,
         type: 3}
       propertyPath: m_ApplyRootMotion
@@ -2250,7 +2257,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 74ac79cb74f7549de84188b42bc10ed4, type: 2}
+      objectReference: {fileID: 22100000, guid: 08a5f8e9c3a834dac9b359a97b91e876,
+        type: 2}
     - target: {fileID: 5866666021909216657, guid: 9d09d9cd650b740e4917165375142b2e,
         type: 3}
       propertyPath: m_ApplyRootMotion
