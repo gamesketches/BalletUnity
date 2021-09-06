@@ -5,15 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PhysicsController : MonoBehaviour
 {
-	public Transform rightThigh;
-	public Transform rightCalf;
-	public Transform rightFoot;
+	public Transform bodyTransform;
+	public Leg rightLeg;
+	public Leg leftLeg;
+	Leg workingLeg;
+	Leg supportingLeg;
 	Quaternion footFlatRotation;
 	Quaternion firstPosThigh;
 
     // Start is called before the first frame update
     void Start()
     {
+		workingLeg = rightLeg;
+		supportingLeg = leftLeg;
         firstPosThigh = transform.rotation;
     }
 
@@ -24,17 +28,104 @@ public class PhysicsController : MonoBehaviour
 		if(gamepad == null) return;
 		Vector2 leftStick = gamepad.leftStick.ReadValue();
 		Vector2 rightStick = gamepad.rightStick.ReadValue();
-		if(leftStick.y <= 0) {
-			rightThigh.localRotation  = Quaternion.Euler(-90 + -Mathf.Acos(-leftStick.x) *Mathf.Rad2Deg, firstPosThigh.eulerAngles.y, Mathf.Asin(leftStick.y) *Mathf.Rad2Deg);
-		} else {
-			rightThigh.localRotation  = Quaternion.Euler(-90 + -Mathf.Acos(-leftStick.x) *Mathf.Rad2Deg,  Mathf.Asin(leftStick.y) *Mathf.Rad2Deg, transform.rotation.eulerAngles.z);
-		}
-		Vector3 rightFootAngles = rightFoot.localEulerAngles;
-		Debug.Log(leftStick.magnitude);
-		rightFootAngles.z = -60 + (leftStick.magnitude * 60);
-		rightFoot.localEulerAngles = rightFootAngles;
-		Vector3 oldAngles = rightCalf.localEulerAngles;
-		oldAngles.z = 135 * gamepad.leftTrigger.ReadValue();
-		rightCalf.localEulerAngles = oldAngles;
+		UpdateWorkingThigh(leftStick);
+		UpdateWorkingCalf(gamepad.leftTrigger.ReadValue());
+		UpdateSupportingLeg(rightStick);
     }
+
+	void UpdateWorkingThigh(Vector2 joystickVals) {
+		if(joystickVals.y <= 0) {
+			workingLeg.thigh.localRotation  = Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg, firstPosThigh.eulerAngles.y, Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg);
+		} else {
+			workingLeg.thigh.localRotation  = Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg,  Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg, transform.rotation.eulerAngles.z);
+		}
+		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 60));
+	}
+	
+	void UpdateWorkingCalf(float buttonValue) {
+		workingLeg.UpdateCalfZ(135 * buttonValue);
+	}
+
+	void UpdateSupportingLeg(Vector2 joystickVals) {
+		if(joystickVals.y < 0) {
+			supportingLeg.UpdateThighZ(45 * -joystickVals.y + 180);
+			supportingLeg.UpdateCalfZ(115 * joystickVals.y);
+			supportingLeg.UpdateFootZ(65 + (-joystickVals.y * 25));
+			Vector3 curPos = bodyTransform.position;
+			curPos.y = 0.43f * joystickVals.y;
+			bodyTransform.position = curPos;
+		} else if(joystickVals.y > 0) {
+			supportingLeg.UpdateFootZ(65 - (65 * joystickVals.y));
+			Vector3 curPos = bodyTransform.position;
+			curPos.y = 0.14f * joystickVals.y;
+			bodyTransform.position = curPos;
+		}
+	}
+}
+
+[System.Serializable]
+public class Leg {
+	public Transform thigh; 
+	public Transform calf; 
+	public Transform foot;
+
+	public Leg(Transform legThigh, Transform legCalf, Transform legFoot) {
+		thigh = legThigh;
+		calf = legCalf;
+		foot = legFoot;
+	}
+
+	public void UpdateThighX(float newX) {
+		Vector3 thighAngles = thigh.localEulerAngles;
+		thighAngles.x = newX;
+		thigh.localEulerAngles = thighAngles;
+	}
+	
+	public void UpdateThighY(float newY) {
+		Vector3 thighAngles = thigh.localEulerAngles;
+		thighAngles.y = newY;
+		thigh.localEulerAngles = thighAngles;
+	}
+	
+	public void UpdateThighZ(float newZ) {
+		Vector3 thighAngles = thigh.localEulerAngles;
+		thighAngles.z = newZ;
+		thigh.localEulerAngles = thighAngles;
+	}
+
+	public void UpdateCalfX(float newX) {
+		Vector3 calfAngles = calf.localEulerAngles;
+		calfAngles.x = newX;
+		calf.localEulerAngles = calfAngles;
+	}
+	
+	public void UpdateCalfY(float newY) {
+		Vector3 calfAngles = calf.localEulerAngles;
+		calfAngles.y = newY;
+		calf.localEulerAngles = calfAngles;
+	}
+	
+	public void UpdateCalfZ(float newZ) {
+		Vector3 calfAngles = calf.localEulerAngles;
+		calfAngles.z = newZ;
+		calf.localEulerAngles = calfAngles;
+	}
+	
+	public void UpdateFootX(float newX) {
+		Vector3 footAngles = foot.localEulerAngles;
+		footAngles.x = newX;
+		foot.localEulerAngles = footAngles;
+	}
+	
+	public void UpdateFootY(float newY) {
+		Vector3 footAngles = foot.localEulerAngles;
+		footAngles.y = newY;
+		foot.localEulerAngles = footAngles;
+	}
+	
+	public void UpdateFootZ(float newZ) {
+		Vector3 footAngles = foot.localEulerAngles;
+		footAngles.z = newZ;
+		foot.localEulerAngles = footAngles;
+	}
 }
