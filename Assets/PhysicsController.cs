@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PhysicsController : MonoBehaviour
 {
 	public Transform bodyTransform;
 	public Leg rightLeg;
 	public Leg leftLeg;
+	public Text joystickOutput;
 	Leg workingLeg;
 	Leg supportingLeg;
 	Quaternion footFlatRotation;
@@ -28,6 +30,7 @@ public class PhysicsController : MonoBehaviour
 		if(gamepad == null) return;
 		Vector2 leftStick = gamepad.leftStick.ReadValue();
 		Vector2 rightStick = gamepad.rightStick.ReadValue();
+		joystickOutput.text = "LeftStick: " + leftStick.ToString() + "\n" + "RightStick: " + rightStick.ToString();
 		UpdateWorkingThigh(leftStick);
 		UpdateWorkingCalf(gamepad.leftTrigger.ReadValue());
 		UpdateSupportingLeg(rightStick);
