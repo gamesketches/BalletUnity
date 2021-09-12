@@ -1168,6 +1168,19 @@ MonoBehaviour:
     calf: {fileID: 1354187303}
     foot: {fileID: 595501137}
   joystickOutput: {fileID: 386338309}
+--- !u!114 &1941682210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941682208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce58e66932c3e49a7b1f69101b467a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tolerance: 0.01
 --- !u!4 &1941682211 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 45188f442dd8d41aba6555c7bfa51f4f,

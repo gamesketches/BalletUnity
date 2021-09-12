@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum MoveType {TenduFront, TenduSide, TenduBack, Releve, Plie, SwitchPosition, CloseFront, CloseBack};
+public enum MoveType {TenduFront, TenduSide, TenduBack, DegageFront, DegageSide, DegageBack, BattementFront, BattementSide, BattementBack, Releve, Plie, SwitchPosition, CloseFront, CloseBack};
 
 public class ChoreographerController : MonoBehaviour
 {

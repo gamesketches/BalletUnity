@@ -30,7 +30,15 @@ public class PhysicsController : MonoBehaviour
 		if(gamepad == null) return;
 		Vector2 leftStick = gamepad.leftStick.ReadValue();
 		Vector2 rightStick = gamepad.rightStick.ReadValue();
-		joystickOutput.text = "LeftStick: " + leftStick.ToString() + "\n" + "RightStick: " + rightStick.ToString();
+		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
+		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
+		if(curMove != null) {
+			Debug.Log("found the move");
+			joystickOutput.text = curMove.displayString;
+		}
+		else {
+			joystickOutput.text = "";
+		}
 		UpdateWorkingThigh(leftStick);
 		UpdateWorkingCalf(gamepad.leftTrigger.ReadValue());
 		UpdateSupportingLeg(rightStick);
