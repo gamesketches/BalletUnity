@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MoveInterpreter : MonoBehaviour
 {
-	List<MoveData> moveSet;
+	public List<MoveData> moveSet;
 	public static MoveInterpreter instance;
 	public float tolerance = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
 		instance = this;
-        InitializeMoveSet();
+        //InitializeMoveSet();
     }
 
     // Update is called once per frame
@@ -31,18 +31,22 @@ public class MoveInterpreter : MonoBehaviour
 
 	void InitializeMoveSet() {
 		moveSet = new List<MoveData>();
-		moveSet.Add(new MoveData(MoveType.TenduFront, 0.25f, 0.35f, 0, 0, tolerance));
-		moveSet.Add(new MoveData(MoveType.TenduSide, 0, 0, -0.45f, -0.35f, tolerance));
-		moveSet.Add(new MoveData(MoveType.TenduBack, -0.5f, -0.4f, 0, 0, 0.04f));
+		moveSet.Add(new MoveData(MoveType.TenduFront, 0.25f, 0.35f, 0, 0, -27f, 0, tolerance));
+		moveSet.Add(new MoveData(MoveType.TenduSide, 0, 0, -0.45f, -0.35f, 0, 0, tolerance));
+		moveSet.Add(new MoveData(MoveType.TenduBack, -0.5f, -0.4f, 0, 0, -45, 0, 0.04f));
 	}
 }
 
+[System.Serializable]
 public class MoveData {
+	[HideInInspector]
 	public string displayString;
-	MoveType moveType;
-	float xMin, xMax, yMin, yMax;
+	public MoveType moveType;
+	public float xMin, xMax, yMin, yMax;
+	public float thighRotation, calfRotation;
+	public float inputTolerance = 0.01f;
 	
-	public MoveData(MoveType theMove, float minX, float maxX, float minY, float maxY, float tolerance = 0.01f) {
+	public MoveData(MoveType theMove, float minX, float maxX, float minY, float maxY, float thigh, float calf, float tolerance = 0.01f) {
 		moveType = theMove;
 		if(minX == maxX && maxX == 0) {
 			xMin = -tolerance;
@@ -58,15 +62,16 @@ public class MoveData {
 			yMin = minY;
 			yMax = maxY;
 		}
+		thighRotation = thigh;
+		calfRotation = calf;
 		moveType = theMove;
 		displayString = theMove.ToString();
+		inputTolerance = tolerance;
 	}
 
 	public bool WithinParameters(float xVal, float yVal) {
 		bool x = xMin <= xVal && xVal <= xMax;
 		bool y = yMin <= yVal && yVal <= yMax;
-		Debug.Log(x);
-		Debug.Log(y);
 		return x && y;
 	}
 }

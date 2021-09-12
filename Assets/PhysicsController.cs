@@ -39,38 +39,52 @@ public class PhysicsController : MonoBehaviour
 		else {
 			joystickOutput.text = "";
 		}
-		UpdateWorkingThigh(leftStick);
+		UpdateWorkingThigh(leftStick, curMove);
 		UpdateWorkingCalf(gamepad.leftTrigger.ReadValue());
 		UpdateSupportingLeg(rightStick);
     }
 
-	void UpdateWorkingThigh(Vector2 joystickVals) {
+	void UpdateWorkingThigh(Vector2 joystickVals, MoveData curMove) {
+		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
 		if(joystickVals.y <= 0) {
-			workingLeg.thigh.localRotation  = Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg, firstPosThigh.eulerAngles.y, Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg);
+			workingLeg.thigh.localRotation  = 
+					Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg, 
+										thighRotation,
+										//firstPosThigh.eulerAngles.y, 
+											Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg);
 		} else {
-			workingLeg.thigh.localRotation  = Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg,  Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg, transform.rotation.eulerAngles.z);
+			workingLeg.thigh.localRotation  = 
+					Quaternion.Euler(-90 + -Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg,  
+										thighRotation,
+						//transform.rotation.eulerAngles.y, 
+							-90 - Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg 
+							);
 		}
 		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 60));
 	}
 	
 	void UpdateWorkingCalf(float buttonValue) {
-		workingLeg.UpdateCalfZ(135 * buttonValue);
+		workingLeg.UpdateCalfZ(70 * buttonValue);
 	}
 
 	void UpdateSupportingLeg(Vector2 joystickVals) {
+		Vector3 curPos = bodyTransform.position;
 		if(joystickVals.y < 0) {
 			supportingLeg.UpdateThighZ(45 * -joystickVals.y + 180);
 			supportingLeg.UpdateCalfZ(115 * joystickVals.y);
 			supportingLeg.UpdateFootZ(65 + (-joystickVals.y * 25));
-			Vector3 curPos = bodyTransform.position;
 			curPos.y = 0.43f * joystickVals.y;
-			bodyTransform.position = curPos;
 		} else if(joystickVals.y > 0) {
 			supportingLeg.UpdateFootZ(65 - (65 * joystickVals.y));
-			Vector3 curPos = bodyTransform.position;
 			curPos.y = 0.14f * joystickVals.y;
-			bodyTransform.position = curPos;
+		} else {
+			supportingLeg.UpdateThighZ(45 * -joystickVals.y + 180);
+			supportingLeg.UpdateCalfZ(115 * joystickVals.y);
+			supportingLeg.UpdateFootZ(65 + (-joystickVals.y * 25));
+			curPos.y = 0;
 		}
+		bodyTransform.position = curPos;
+			
 	}
 }
 

@@ -1180,6 +1180,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce58e66932c3e49a7b1f69101b467a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSet:
+  - displayString: 
+    moveType: 0
+    xMin: 0.25
+    xMax: 0.35
+    yMin: 0
+    yMax: 0
+    thighRotation: -27
+    calfRotation: 0
+    inputTolerance: 0.01
+  - displayString: 
+    moveType: 1
+    xMin: 0
+    xMax: 0
+    yMin: -0.45
+    yMax: -0.35
+    thighRotation: 0
+    calfRotation: 0
+    inputTolerance: 0.01
+  - displayString: 
+    moveType: 2
+    xMin: -0.5
+    xMax: -0.4
+    yMin: 0
+    yMax: 0
+    thighRotation: 0
+    calfRotation: 0
+    inputTolerance: 0.04
   tolerance: 0.01
 --- !u!4 &1941682211 stripped
 Transform:
