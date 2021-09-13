@@ -39,7 +39,6 @@ public class MoveInterpreter : MonoBehaviour
 
 [System.Serializable]
 public class MoveData {
-	[HideInInspector]
 	public string displayString;
 	public MoveType moveType;
 	public float xMin, xMax, yMin, yMax;

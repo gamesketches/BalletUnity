@@ -1168,6 +1168,7 @@ MonoBehaviour:
     calf: {fileID: 1354187303}
     foot: {fileID: 595501137}
   joystickOutput: {fileID: 386338309}
+  useFaker: 0
 --- !u!114 &1941682210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSet:
-  - displayString: 
+  - displayString: Tendu Front
     moveType: 0
     xMin: 0.25
     xMax: 0.35
@@ -1190,7 +1191,7 @@ MonoBehaviour:
     thighRotation: -27
     calfRotation: 0
     inputTolerance: 0.01
-  - displayString: 
+  - displayString: Tendu Side
     moveType: 1
     xMin: 0
     xMax: 0
@@ -1199,7 +1200,7 @@ MonoBehaviour:
     thighRotation: 0
     calfRotation: 0
     inputTolerance: 0.01
-  - displayString: 
+  - displayString: Tendu Back
     moveType: 2
     xMin: -0.5
     xMax: -0.4
@@ -1215,6 +1216,22 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 804170491}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1941682212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941682208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c417cb33a98e94e37a82223f1577faee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftStick: {x: 0, y: 0}
+  rightStick: {x: 0, y: 0}
+  leftCalfTrigger: 0
+  rightCalfTrigger: 0
 --- !u!1 &1947567956
 GameObject:
   m_ObjectHideFlags: 0

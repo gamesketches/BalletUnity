@@ -14,6 +14,8 @@ public class PhysicsController : MonoBehaviour
 	Leg supportingLeg;
 	Quaternion footFlatRotation;
 	Quaternion firstPosThigh;
+	public bool useFaker = false;
+	InputFaker inputFaker;
 
     // Start is called before the first frame update
     void Start()
@@ -21,26 +23,37 @@ public class PhysicsController : MonoBehaviour
 		workingLeg = rightLeg;
 		supportingLeg = leftLeg;
         firstPosThigh = transform.rotation;
+		inputFaker = GetComponent<InputFaker>();
     }
 
     // Update is called once per frame
     void Update()
     {
+		Vector2 leftStick, rightStick;
+		float calfFlexValue;
 		var gamepad = Gamepad.current;
-		if(gamepad == null) return;
-		Vector2 leftStick = gamepad.leftStick.ReadValue();
-		Vector2 rightStick = gamepad.rightStick.ReadValue();
+		if(gamepad == null || useFaker) {
+			leftStick = inputFaker.leftStick;
+			rightStick = inputFaker.rightStick;
+			calfFlexValue = inputFaker.leftCalfTrigger;
+		} else {
+			calfFlexValue = gamepad.leftTrigger.ReadValue();
+			leftStick = gamepad.leftStick.ReadValue();
+			rightStick = gamepad.rightStick.ReadValue();
+		}
 		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
 		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
+		float calfRotation = 0;
 		if(curMove != null) {
-			Debug.Log("found the move");
+			Debug.Log("found the move: " + curMove.displayString);
 			joystickOutput.text = curMove.displayString;
+			calfRotation = curMove.calfRotation;
 		}
 		else {
 			joystickOutput.text = "";
 		}
 		UpdateWorkingThigh(leftStick, curMove);
-		UpdateWorkingCalf(gamepad.leftTrigger.ReadValue());
+		UpdateWorkingCalf(calfRotation, calfFlexValue);
 		UpdateSupportingLeg(rightStick);
     }
 
@@ -63,7 +76,8 @@ public class PhysicsController : MonoBehaviour
 		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 60));
 	}
 	
-	void UpdateWorkingCalf(float buttonValue) {
+	void UpdateWorkingCalf(float calfRotation, float buttonValue) {
+		workingLeg.UpdateCalfY(calfRotation);
 		workingLeg.UpdateCalfZ(70 * buttonValue);
 	}
 
