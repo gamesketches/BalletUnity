@@ -8,6 +8,8 @@ public class InputFaker : MonoBehaviour
 	public Vector2 rightStick = new Vector2(0.0f, 0.0f);
 	public float leftCalfTrigger;
 	public float rightCalfTrigger;
+	public bool leftBumper;
+	public bool rightBumper;
 
     // Start is called before the first frame update
     void Start()
