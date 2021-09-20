@@ -10,6 +10,7 @@ public class PhysicsController : MonoBehaviour
 	public Leg rightLeg;
 	public Leg leftLeg;
 	public Text joystickOutput;
+	public float levelChangeTime;
 	Leg workingLeg;
 	Leg supportingLeg;
 	Quaternion footFlatRotation;
@@ -36,9 +37,37 @@ public class PhysicsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		Vector2 leftStick, rightStick;
-		float calfFlexValue;
-		bool leftBumper, rightBumper;
+		UpdateInputs();
+		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
+		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
+		float calfRotation = 0;
+		if(curMove != null) {
+			Debug.Log("found the move: " + curMove.displayString);
+			joystickOutput.text = curMove.displayString;
+			calfRotation = curMove.calfRotation;
+		}
+		else {
+			joystickOutput.text = "";
+		}
+		if(!changingLevel) {
+			Quaternion workingThighRotation;
+			if(leftBumper) {
+				if(rightBumper) {
+					workingThighRotation = CalculateThighUpperLevel(leftStick, curMove);
+				} else {
+					workingThighRotation = CalculateThighMidLevel(leftStick, curMove);
+				}
+			} else {
+				workingThighRotation = CalculateGroundedThigh(leftStick, curMove);
+			}
+			workingLeg.thigh.localRotation = workingThighRotation;
+		}
+		workingLeg.UpdateFootZ(-60 + (leftStick.magnitude * 80));
+		UpdateWorkingCalf(calfRotation, calfFlexValue);
+		UpdateSupportingLeg(rightStick);
+    }
+
+	void UpdateInputs() {
 		var gamepad = Gamepad.current;
 		if(gamepad == null || useFaker) {
 			leftStick = inputFaker.leftStick;
@@ -52,36 +81,19 @@ public class PhysicsController : MonoBehaviour
 			rightStick = gamepad.rightStick.ReadValue();
 			leftBumper = gamepad.leftShoulder.isPressed;
 			if(gamepad.leftShoulder.wasPressedThisFrame) { 
-		//		StartCoroutine(ShiftToMidLevel());
+				StartCoroutine(ShiftToMidLevel());
 			}
 			rightBumper = gamepad.rightShoulder.isPressed;
 		}
-		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
-		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
-		float calfRotation = 0;
-		if(curMove != null) {
-			Debug.Log("found the move: " + curMove.displayString);
-			joystickOutput.text = curMove.displayString;
-			calfRotation = curMove.calfRotation;
-		}
-		else {
-			joystickOutput.text = "";
-		}
-		if(leftBumper) {
-			if(rightBumper) {
-				UpdateWorkingThighUpperLevel(leftStick, curMove);
-			} else {
-				UpdateWorkingThighMidLevel(leftStick, curMove);
-			}
-		} else {
-			UpdateWorkingThighGrounded(leftStick, curMove);
-		}
-		UpdateWorkingCalf(calfRotation, calfFlexValue);
-		UpdateSupportingLeg(rightStick);
-    }
+	}
 
-	void UpdateInputs() {
-		
+	Quaternion CalculateGroundedThigh(Vector2 joystickVals, MoveData curMove) {
+		float groundedOffset = 0.5f;
+		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
+		return Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -200f, -140f),
+									thighRotation,
+									//firstPosThigh.eulerAngles.y, 
+										Mathf.Clamp(Mathf.Asin(joystickVals.y * groundedOffset) *Mathf.Rad2Deg, -24f, 0));
 	}
 
 	void UpdateWorkingThighGrounded(Vector2 joystickVals, MoveData curMove) {
@@ -105,30 +117,35 @@ public class PhysicsController : MonoBehaviour
 		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 80));
 	}
 
-	//IEnumerator ShiftToMidLevel() {
-	//	var gamepad = 
+	IEnumerator ShiftToMidLevel() {
+		changingLevel = true;
+		MoveData startingMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
+		for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
+			Quaternion groundedPos = CalculateGroundedThigh(leftStick, startingMove);
+			Quaternion OTGPos = CalculateThighMidLevel(leftStick, startingMove);
+			workingLeg.thigh.localRotation = Quaternion.Lerp(groundedPos, OTGPos, t / levelChangeTime);
+			yield return null;
+		}
+		changingLevel = false;
+	}
 
-	void UpdateWorkingThighMidLevel(Vector2 joystickVals, MoveData curMove) {
+	Quaternion CalculateThighMidLevel(Vector2 joystickVals, MoveData curMove) {
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		workingLeg.thigh.localRotation  = 
-				Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg, 
+		return Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg, 
 									thighRotation,
 									//firstPosThigh.eulerAngles.y, 
 										Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg);
-		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 80));
 	}
 
-	void UpdateWorkingThighUpperLevel(Vector2 joystickVals, MoveData curMove) {
+	Quaternion CalculateThighUpperLevel(Vector2 joystickVals, MoveData curMove) {
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		workingLeg.thigh.localRotation  = 
-					Quaternion.Euler(-90 + -Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg,  
+		return Quaternion.Euler(-90 + -Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg,  
 										thighRotation,
 						//transform.rotation.eulerAngles.y, 
 							-90 - Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg 
 							);
-		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 80));
 	}
-
+	
 	void UpdateWorkingCalf(float calfRotation, float buttonValue) {
 		workingLeg.UpdateCalfY(calfRotation);
 		workingLeg.UpdateCalfZ(70 * buttonValue);

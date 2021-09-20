@@ -1168,6 +1168,7 @@ MonoBehaviour:
     calf: {fileID: 1354187303}
     foot: {fileID: 595501137}
   joystickOutput: {fileID: 386338309}
+  levelChangeTime: 0.2
   useFaker: 0
 --- !u!114 &1941682210
 MonoBehaviour:
@@ -1232,6 +1233,8 @@ MonoBehaviour:
   rightStick: {x: 0, y: 0}
   leftCalfTrigger: 0
   rightCalfTrigger: 0
+  leftBumper: 0
+  rightBumper: 0
 --- !u!1 &1947567956
 GameObject:
   m_ObjectHideFlags: 0
