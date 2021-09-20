@@ -38,7 +38,7 @@ public class PhysicsController : MonoBehaviour
     void Update()
     {
 		UpdateInputs();
-		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
+		MoveData curMove = MoveInterpreter.instance.AssessGroundedMoveType(leftStick.x, leftStick.y);
 		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
 		float calfRotation = 0;
 		if(curMove != null) {
@@ -80,10 +80,21 @@ public class PhysicsController : MonoBehaviour
 			leftStick = gamepad.leftStick.ReadValue();
 			rightStick = gamepad.rightStick.ReadValue();
 			leftBumper = gamepad.leftShoulder.isPressed;
-			if(gamepad.leftShoulder.wasPressedThisFrame) { 
-				StartCoroutine(ShiftToMidLevel());
-			}
 			rightBumper = gamepad.rightShoulder.isPressed;
+			if(gamepad.leftShoulder.wasPressedThisFrame) { 
+				if(rightBumper) {
+					StartCoroutine(ShiftToUpperLevel());
+				} else {
+					StartCoroutine(ShiftToMidLevel());
+				}
+			} else if(gamepad.leftShoulder.wasReleasedThisFrame) {
+				StartCoroutine(ShiftToGroundedLevel());
+			}
+			if(gamepad.rightShoulder.wasPressedThisFrame && leftBumper) {
+				StartCoroutine(ShiftToUpperLevel());
+			} else if(gamepad.rightShoulder.wasReleasedThisFrame) {
+				StartCoroutine(UpperToMidLevel());
+			}
 		}
 	}
 
@@ -118,23 +129,70 @@ public class PhysicsController : MonoBehaviour
 	}
 
 	IEnumerator ShiftToMidLevel() {
-		changingLevel = true;
-		MoveData startingMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y);
-		for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
-			Quaternion groundedPos = CalculateGroundedThigh(leftStick, startingMove);
-			Quaternion OTGPos = CalculateThighMidLevel(leftStick, startingMove);
-			workingLeg.thigh.localRotation = Quaternion.Lerp(groundedPos, OTGPos, t / levelChangeTime);
-			yield return null;
+		if(!changingLevel) {
+			changingLevel = true;
+			MoveData startingMove = MoveInterpreter.instance.AssessGroundedMoveType(leftStick.x, leftStick.y);
+			Quaternion groundedPos, OTGPos;
+			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
+				groundedPos = CalculateGroundedThigh(leftStick, startingMove);
+				OTGPos = rightBumper ? CalculateThighUpperLevel(leftStick, startingMove) : CalculateThighMidLevel(leftStick, startingMove);
+				workingLeg.thigh.localRotation = Quaternion.Lerp(groundedPos, OTGPos, t / levelChangeTime);
+				yield return null;
+			}
+			changingLevel = false;
 		}
-		changingLevel = false;
+	}
+
+	IEnumerator ShiftToGroundedLevel() {
+		if(!changingLevel) {
+			changingLevel = true;
+			MoveData startingMove = MoveInterpreter.instance.AssessMidLevelMoveType(leftStick.x, leftStick.y);
+			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
+				Quaternion groundedPos = CalculateGroundedThigh(leftStick, startingMove);
+				Quaternion OTGPos = CalculateThighMidLevel(leftStick, startingMove);
+				workingLeg.thigh.localRotation = Quaternion.Lerp(OTGPos, groundedPos, t / levelChangeTime);
+				yield return null;
+			}
+			changingLevel = false;
+		}
 	}
 
 	Quaternion CalculateThighMidLevel(Vector2 joystickVals, MoveData curMove) {
-		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		return Quaternion.Euler(-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg, 
-									thighRotation,
-									//firstPosThigh.eulerAngles.y, 
-										Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg);
+		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;//firstPosThigh.eulerAngles.y
+		float xVal = -90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg;
+		float zVal = Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg;
+		if(zVal > 0) zVal = 0;
+		return Quaternion.Euler(xVal, thighRotation, zVal);
+	}
+
+	IEnumerator ShiftToUpperLevel() {
+		if(!changingLevel) {
+			changingLevel = true;
+			MoveData startingMove = MoveInterpreter.instance.AssessMidLevelMoveType(leftStick.x, leftStick.y);
+			Quaternion OTGRot, upperRotation;
+			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
+				OTGRot = CalculateThighMidLevel(leftStick, startingMove);
+				upperRotation = CalculateThighUpperLevel(leftStick, startingMove);
+				workingLeg.thigh.localRotation = Quaternion.Lerp(OTGRot, upperRotation, t / levelChangeTime);
+				yield return null;
+			}
+			changingLevel = false;
+		}
+	}
+
+	IEnumerator UpperToMidLevel() {
+		if(!changingLevel) {
+			changingLevel = true;
+			MoveData startingMove = MoveInterpreter.instance.AssessUpperLevelMoveType(leftStick.x, leftStick.y);
+			Quaternion OTGRot, upperRotation;
+			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
+				OTGRot = CalculateThighMidLevel(leftStick, startingMove);
+				upperRotation = CalculateThighUpperLevel(leftStick, startingMove);
+				workingLeg.thigh.localRotation = Quaternion.Lerp(upperRotation, OTGRot, t / levelChangeTime);
+				yield return null;
+			}
+			changingLevel = false;
+		}
 	}
 
 	Quaternion CalculateThighUpperLevel(Vector2 joystickVals, MoveData curMove) {

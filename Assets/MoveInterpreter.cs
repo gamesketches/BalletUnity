@@ -5,6 +5,8 @@ using UnityEngine;
 public class MoveInterpreter : MonoBehaviour
 {
 	public List<MoveData> moveSet;
+	public List<MoveData> midLevelMoveSet;
+	public List<MoveData> upperLevelMoveSet;
 	public static MoveInterpreter instance;
 	public float tolerance = 0.01f;
     // Start is called before the first frame update
@@ -20,7 +22,25 @@ public class MoveInterpreter : MonoBehaviour
         
     }
 
-	public MoveData AssessMoveType(float xVal, float yVal) {
+	public MoveData AssessGroundedMoveType(float xVal, float yVal) {
+		return SearchMoves(xVal, yVal, moveSet);
+		/*foreach(MoveData move in moveSet) {
+			if(move.WithinParameters(xVal, yVal)) {
+				return move;
+			}
+		}
+		return null;*/
+	}
+
+	public MoveData AssessMidLevelMoveType(float xVal, float yVal) {
+		return SearchMoves(xVal, yVal, midLevelMoveSet);
+	}
+
+	public MoveData AssessUpperLevelMoveType(float xVal, float yVal) {
+		return SearchMoves(xVal, yVal, upperLevelMoveSet);
+	}
+
+	MoveData SearchMoves(float xVal, float yVal, List<MoveData> moves) {
 		foreach(MoveData move in moveSet) {
 			if(move.WithinParameters(xVal, yVal)) {
 				return move;
