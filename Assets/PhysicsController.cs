@@ -197,10 +197,10 @@ public class PhysicsController : MonoBehaviour
 
 	Quaternion CalculateThighUpperLevel(Vector2 joystickVals, MoveData curMove) {
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		return Quaternion.Euler(-90 + -Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg,  
-										thighRotation,
+		return Quaternion.Euler(thighRotation - 180,
+									-90 + Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg,	
 						//transform.rotation.eulerAngles.y, 
-							-90 - Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg 
+							-90 + Mathf.Asin(-joystickVals.y) *Mathf.Rad2Deg 
 							);
 	}
 	
