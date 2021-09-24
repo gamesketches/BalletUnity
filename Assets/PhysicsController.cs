@@ -99,16 +99,16 @@ public class PhysicsController : MonoBehaviour
 	}
 
 	Quaternion CalculateGroundedThigh(Vector2 joystickVals, MoveData curMove) {
-		float groundedOffset = 0.5f;
+		float groundedOffset = 0.7f;
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		return Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -200f, -140f),
+		return Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -208f, -140f),
 									thighRotation,
 									//firstPosThigh.eulerAngles.y, 
 										Mathf.Clamp(Mathf.Asin(joystickVals.y * groundedOffset) *Mathf.Rad2Deg, -24f, 0));
 	}
 
 	void UpdateWorkingThighGrounded(Vector2 joystickVals, MoveData curMove) {
-		float groundedOffset = 0.5f;
+		float groundedOffset = 1.5f;
 		//joystickVals *= groundedOffset;
 		/*if(joystickVals.magnitude < 0.95f) {
 			if(Mathf.Abs(joystickVals.x) > Mathf.Abs(joystickVals.y)) {
@@ -121,7 +121,7 @@ public class PhysicsController : MonoBehaviour
 		//workingLeg.thigh.transform.up = (new Vector3(-joystickVals.y, -1, joystickVals.x) - transform.position).normalized;
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
 		workingLeg.thigh.localRotation  = 
-				Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -200f, -140f),
+				Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -210f, -140f),
 									thighRotation,
 									//firstPosThigh.eulerAngles.y, 
 										Mathf.Clamp(Mathf.Asin(joystickVals.y * groundedOffset) *Mathf.Rad2Deg, -24f, 0));
