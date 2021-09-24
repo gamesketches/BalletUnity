@@ -137,8 +137,9 @@ public class PhysicsController : MonoBehaviour
 	}
 
 	Quaternion CalculateThighMidLevel(Vector2 joystickVals, MoveData curMove) {
+		float midLevelOffset = 0.7f;
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;//firstPosThigh.eulerAngles.y
-		float xVal = (-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg);
+		float xVal = (-90 + -Mathf.Acos(-joystickVals.x *midLevelOffset) *Mathf.Rad2Deg);
 		float yVal = thighRotation;
 		float zVal = Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg;
 		if(zVal > 0) zVal = 0;
@@ -176,10 +177,11 @@ public class PhysicsController : MonoBehaviour
 	}
 
 	Quaternion CalculateThighUpperLevel(Vector2 joystickVals, MoveData curMove) {
+		float upperOffset = 0.95f;
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
 		float xVal = thighRotation - 180;
 		float yVal = -90 + Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg;//transform.rotation.eulerAngles.y,
-		float zVal = -90 + Mathf.Asin(-joystickVals.y) *Mathf.Rad2Deg;
+		float zVal = -90 + Mathf.Asin(-joystickVals.y * upperOffset) *Mathf.Rad2Deg;
 		return Quaternion.Euler(xVal, yVal, zVal);
 	}
 	
