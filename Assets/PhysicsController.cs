@@ -101,31 +101,10 @@ public class PhysicsController : MonoBehaviour
 	Quaternion CalculateGroundedThigh(Vector2 joystickVals, MoveData curMove) {
 		float groundedOffset = 0.7f;
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		return Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -208f, -140f),
-									thighRotation,
-									//firstPosThigh.eulerAngles.y, 
-										Mathf.Clamp(Mathf.Asin(joystickVals.y * groundedOffset) *Mathf.Rad2Deg, -24f, 0));
-	}
-
-	void UpdateWorkingThighGrounded(Vector2 joystickVals, MoveData curMove) {
-		float groundedOffset = 1.5f;
-		//joystickVals *= groundedOffset;
-		/*if(joystickVals.magnitude < 0.95f) {
-			if(Mathf.Abs(joystickVals.x) > Mathf.Abs(joystickVals.y)) {
-				transform.rotation = firstPosThigh.euler + new Vector3(joystickVals.x, 0, 0);
-			} else {
-				transform.rotation = firstPosThigh.euler + new Vector3(0, 0, joystickVals.y);
-			}
-		} else {
-			*/
-		//workingLeg.thigh.transform.up = (new Vector3(-joystickVals.y, -1, joystickVals.x) - transform.position).normalized;
-		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		workingLeg.thigh.localRotation  = 
-				Quaternion.Euler(Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -210f, -140f),
-									thighRotation,
-									//firstPosThigh.eulerAngles.y, 
-										Mathf.Clamp(Mathf.Asin(joystickVals.y * groundedOffset) *Mathf.Rad2Deg, -24f, 0));
-		workingLeg.UpdateFootZ(-60 + (joystickVals.magnitude * 80));
+		float xVal = Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -208f, -140f);
+		float yVal = thighRotation;//firstPosThigh.eulerAngles.y,
+		float zVal = Mathf.Clamp(Mathf.Asin(joystickVals.y * groundedOffset) *Mathf.Rad2Deg, -24f, 0);
+		return Quaternion.Euler(xVal, thighRotation, zVal);
 	}
 
 	IEnumerator ShiftToMidLevel() {
@@ -159,10 +138,11 @@ public class PhysicsController : MonoBehaviour
 
 	Quaternion CalculateThighMidLevel(Vector2 joystickVals, MoveData curMove) {
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;//firstPosThigh.eulerAngles.y
-		float xVal = -90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg;
+		float xVal = (-90 + -Mathf.Acos(-joystickVals.x) *Mathf.Rad2Deg);
+		float yVal = thighRotation;
 		float zVal = Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg;
 		if(zVal > 0) zVal = 0;
-		return Quaternion.Euler(xVal, thighRotation, zVal);
+		return Quaternion.Euler(xVal, yVal, zVal);
 	}
 
 	IEnumerator ShiftToUpperLevel() {
@@ -197,11 +177,10 @@ public class PhysicsController : MonoBehaviour
 
 	Quaternion CalculateThighUpperLevel(Vector2 joystickVals, MoveData curMove) {
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
-		return Quaternion.Euler(thighRotation - 180,
-									-90 + Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg,	
-						//transform.rotation.eulerAngles.y, 
-							-90 + Mathf.Asin(-joystickVals.y) *Mathf.Rad2Deg 
-							);
+		float xVal = thighRotation - 180;
+		float yVal = -90 + Mathf.Acos(joystickVals.x) *Mathf.Rad2Deg;//transform.rotation.eulerAngles.y,
+		float zVal = -90 + Mathf.Asin(-joystickVals.y) *Mathf.Rad2Deg;
+		return Quaternion.Euler(xVal, yVal, zVal);
 	}
 	
 	void UpdateWorkingCalf(float calfRotation, float buttonValue) {
