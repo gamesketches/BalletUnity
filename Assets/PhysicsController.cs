@@ -21,7 +21,7 @@ public class PhysicsController : MonoBehaviour
 	InputFaker inputFaker;
 	Vector3 leftStick, rightStick;
 	float calfFlexValue;
-	bool leftBumper, rightBumper;
+	bool leftBumper, rightBumper, leftStickDown, rightStickDown;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +40,7 @@ public class PhysicsController : MonoBehaviour
 		UpdateInputs();
 		MoveData curMove = MoveInterpreter.instance.AssessGroundedMoveType(leftStick.x, leftStick.y);
 		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
+		Debug.Log("X: " + rightStick.x.ToString() + ", Y: " + rightStick.y.ToString());
 		float calfRotation = 0;
 		if(curMove != null) {
 			Debug.Log("found the move: " + curMove.displayString);
@@ -79,6 +80,8 @@ public class PhysicsController : MonoBehaviour
 			calfFlexValue = gamepad.leftTrigger.ReadValue();
 			leftStick = gamepad.leftStick.ReadValue();
 			rightStick = gamepad.rightStick.ReadValue();
+			leftStickDown = gamepad.leftStickButton.isPressed;
+			rightStickDown = gamepad.rightStickButton.isPressed;
 			leftBumper = gamepad.leftShoulder.isPressed;
 			rightBumper = gamepad.rightShoulder.isPressed;
 			if(gamepad.leftShoulder.wasPressedThisFrame) { 
@@ -193,10 +196,17 @@ public class PhysicsController : MonoBehaviour
 	void UpdateSupportingLeg(Vector2 joystickVals) {
 		Vector3 curPos = bodyTransform.position;
 		if(joystickVals.y < 0) {
-			supportingLeg.UpdateThighZ(45 * -joystickVals.y + 180);
-			supportingLeg.UpdateCalfZ(115 * joystickVals.y);
-			supportingLeg.UpdateFootZ(65 + (-joystickVals.y * 25));
-			curPos.y = 0.43f * joystickVals.y;
+			if(rightStickDown) {
+				supportingLeg.UpdateThighZ(225);
+				supportingLeg.UpdateCalfZ(-105);
+				supportingLeg.UpdateFootZ(90);
+				curPos.y = -0.38f;
+			} else {
+				supportingLeg.UpdateThighZ(22 * -joystickVals.y + 180);
+				supportingLeg.UpdateCalfZ(75 * joystickVals.y);
+				supportingLeg.UpdateFootZ(65 + (-joystickVals.y * 25));
+				curPos.y = 0.215f * joystickVals.y;
+			}
 		} else if(joystickVals.y > 0) {
 			supportingLeg.UpdateFootZ(65 - (65 * joystickVals.y));
 			curPos.y = 0.14f * joystickVals.y;
