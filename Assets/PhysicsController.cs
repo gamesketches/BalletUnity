@@ -38,30 +38,30 @@ public class PhysicsController : MonoBehaviour
     void Update()
     {
 		UpdateInputs();
-		MoveData curMove = MoveInterpreter.instance.AssessGroundedMoveType(leftStick.x, leftStick.y);
+		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y, leftBumper, rightBumper);
 		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
-		Debug.Log("X: " + rightStick.x.ToString() + ", Y: " + rightStick.y.ToString());
 		float calfRotation = 0;
 		if(curMove != null) {
 			Debug.Log("found the move: " + curMove.displayString);
 			joystickOutput.text = curMove.displayString;
+			workingLeg.thigh.localRotation = curMove.MoveRotationVal();
 			calfRotation = curMove.calfRotation;
 		}
 		else {
 			joystickOutput.text = "";
-		}
-		if(!changingLevel) {
-			Quaternion workingThighRotation;
-			if(leftBumper) {
-				if(rightBumper) {
-					workingThighRotation = CalculateThighUpperLevel(leftStick, curMove);
+			if(!changingLevel) {
+				Quaternion workingThighRotation;
+				if(leftBumper) {
+					if(rightBumper) {
+						workingThighRotation = CalculateThighUpperLevel(leftStick, curMove);
+					} else {
+						workingThighRotation = CalculateThighMidLevel(leftStick, curMove);
+					}
 				} else {
-					workingThighRotation = CalculateThighMidLevel(leftStick, curMove);
+					workingThighRotation = CalculateGroundedThigh(leftStick, curMove);
 				}
-			} else {
-				workingThighRotation = CalculateGroundedThigh(leftStick, curMove);
+				workingLeg.thigh.localRotation = workingThighRotation;
 			}
-			workingLeg.thigh.localRotation = workingThighRotation;
 		}
 		workingLeg.UpdateFootZ(-60 + (leftStick.magnitude * 80));
 		UpdateWorkingCalf(calfRotation, calfFlexValue);
@@ -128,7 +128,7 @@ public class PhysicsController : MonoBehaviour
 	IEnumerator ShiftToGroundedLevel() {
 		if(!changingLevel) {
 			changingLevel = true;
-			MoveData startingMove = MoveInterpreter.instance.AssessMidLevelMoveType(leftStick.x, leftStick.y);
+			MoveData startingMove = MoveInterpreter.instance.AssessMidMoveType(leftStick.x, leftStick.y);
 			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
 				Quaternion groundedPos = CalculateGroundedThigh(leftStick, startingMove);
 				Quaternion OTGPos = CalculateThighMidLevel(leftStick, startingMove);
@@ -152,7 +152,7 @@ public class PhysicsController : MonoBehaviour
 	IEnumerator ShiftToUpperLevel() {
 		if(!changingLevel) {
 			changingLevel = true;
-			MoveData startingMove = MoveInterpreter.instance.AssessMidLevelMoveType(leftStick.x, leftStick.y);
+			MoveData startingMove = MoveInterpreter.instance.AssessMidMoveType(leftStick.x, leftStick.y);
 			Quaternion OTGRot, upperRotation;
 			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
 				OTGRot = CalculateThighMidLevel(leftStick, startingMove);
@@ -167,7 +167,7 @@ public class PhysicsController : MonoBehaviour
 	IEnumerator UpperToMidLevel() {
 		if(!changingLevel) {
 			changingLevel = true;
-			MoveData startingMove = MoveInterpreter.instance.AssessUpperLevelMoveType(leftStick.x, leftStick.y);
+			MoveData startingMove = MoveInterpreter.instance.AssessHighMoveType(leftStick.x, leftStick.y);
 			Quaternion OTGRot, upperRotation;
 			for(float t = 0; t < levelChangeTime; t += Time.deltaTime) {
 				OTGRot = CalculateThighMidLevel(leftStick, startingMove);
