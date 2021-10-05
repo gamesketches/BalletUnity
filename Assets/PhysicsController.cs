@@ -11,6 +11,8 @@ public class PhysicsController : MonoBehaviour
 	public Leg leftLeg;
 	public Text joystickOutput;
 	public float levelChangeTime;
+	public float lockInTime;
+	public float lockOutTime;
 	Leg workingLeg;
 	Leg supportingLeg;
 	Quaternion footFlatRotation;
@@ -21,6 +23,7 @@ public class PhysicsController : MonoBehaviour
 	InputFaker inputFaker;
 	Vector3 leftStick, rightStick;
 	float calfFlexValue;
+	MoveData curMove;
 	bool leftBumper, rightBumper, leftStickDown, rightStickDown;
 
     // Start is called before the first frame update
@@ -38,29 +41,25 @@ public class PhysicsController : MonoBehaviour
     void Update()
     {
 		UpdateInputs();
-		MoveData curMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y, leftBumper, rightBumper);
+		MoveData newCurMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y, leftBumper, rightBumper);
 		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
 		float calfRotation = 0;
-		if(curMove != null) {
+		if(newCurMove != curMove && !changingLevel) {
+			StartCoroutine(TransitionToMove(curMove, newCurMove));
+			curMove = newCurMove;
+		}
+		else if(!changingLevel) {
+			if(newCurMove != null) {
 			Debug.Log("found the move: " + curMove.displayString);
 			joystickOutput.text = curMove.displayString;
 			workingLeg.thigh.localRotation = curMove.MoveRotationVal();
-			calfRotation = curMove.calfRotation;
-		}
-		else {
-			joystickOutput.text = "";
-			if(!changingLevel) {
-				Quaternion workingThighRotation;
-				if(leftBumper) {
-					if(rightBumper) {
-						workingThighRotation = CalculateThighUpperLevel(leftStick, curMove);
-					} else {
-						workingThighRotation = CalculateThighMidLevel(leftStick, curMove);
-					}
-				} else {
-					workingThighRotation = CalculateGroundedThigh(leftStick, curMove);
+			calfRotation = newCurMove.calfRotation;
+			}
+			else {
+				joystickOutput.text = "";
+				if(!changingLevel) {
+					workingLeg.thigh.localRotation = GetThighRotation(leftStick, curMove);
 				}
-				workingLeg.thigh.localRotation = workingThighRotation;
 			}
 		}
 		workingLeg.UpdateFootZ(-60 + (leftStick.magnitude * 80));
@@ -98,6 +97,33 @@ public class PhysicsController : MonoBehaviour
 			} else if(gamepad.rightShoulder.wasReleasedThisFrame) {
 				StartCoroutine(UpperToMidLevel());
 			}
+		}
+	}
+
+	Quaternion GetThighRotation(Vector2 controlStick, MoveData move) {
+		if(leftBumper) {
+			if(rightBumper) {
+				return CalculateThighUpperLevel(leftStick, move);
+			} else {
+				return CalculateThighMidLevel(leftStick, move);
+			}
+		} else {
+			return CalculateGroundedThigh(leftStick, move);
+		}	
+	}
+
+	IEnumerator TransitionToMove(MoveData curMove, MoveData newMove) {
+		if(!changingLevel) {
+			changingLevel = true;
+			float transitionTime = curMove == null ? lockInTime : lockOutTime;
+			Quaternion startRotation = curMove == null ? GetThighRotation(leftStick, curMove) : curMove.MoveRotationVal();
+			Quaternion targetRotation = newMove == null ? GetThighRotation(leftStick, newMove) : newMove.MoveRotationVal();
+			for(float t = 0; t < transitionTime; t += Time.deltaTime) {
+				workingLeg.thigh.localRotation = Quaternion.Lerp(startRotation, targetRotation, t / transitionTime);
+				yield return null;
+			}
+			workingLeg.thigh.localRotation = targetRotation;
+			changingLevel = false;
 		}
 	}
 

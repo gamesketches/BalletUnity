@@ -1169,6 +1169,8 @@ MonoBehaviour:
     foot: {fileID: 595501137}
   joystickOutput: {fileID: 386338309}
   levelChangeTime: 0.2
+  lockInTime: 0.15
+  lockOutTime: 0.03
   useFaker: 0
 --- !u!114 &1941682210
 MonoBehaviour:
