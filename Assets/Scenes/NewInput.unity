@@ -540,22 +540,22 @@ PrefabInstance:
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.012895147
+      value: 0.010452014
       objectReference: {fileID: 0}
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.92364895
+      value: -0.9617276
       objectReference: {fileID: 0}
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.020347962
+      value: -0.021704374
       objectReference: {fileID: 0}
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.38248184
+      value: 0.27294633
       objectReference: {fileID: 0}
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
@@ -565,7 +565,7 @@ PrefabInstance:
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 45
+      value: 31.7
       objectReference: {fileID: 0}
     - target: {fileID: -3067703950372464656, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
@@ -620,7 +620,7 @@ PrefabInstance:
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00014532544
+      value: -0.00014564674
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
@@ -630,37 +630,37 @@ PrefabInstance:
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.047575116
+      value: 0.04120163
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.92242146
+      value: -0.9960599
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0059981793
+      value: -0.066154
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.38319606
+      value: -0.04231744
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -174.7
+      value: -174.97
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -45.185974
+      value: -4.54
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 1.4609985
+      value: -7.4
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
@@ -1193,7 +1193,7 @@ MonoBehaviour:
     yMax: 0.05
     thighRotation: -45
     calfRotation: 3
-    localRotation: {x: -174.7, y: -45.18597, z: 1.460999}
+    localRotation: {x: -177.2, y: -6.9, z: 1.460999}
     inputTolerance: 0
     moveLevel: 0
     followUpMoves: []
@@ -1206,6 +1206,18 @@ MonoBehaviour:
     thighRotation: -45
     calfRotation: 3
     localRotation: {x: -174.7, y: -45.18597, z: 1.460999}
+    inputTolerance: 0
+    moveLevel: 0
+    followUpMoves: []
+  - displayString: TenduSide
+    moveType: 1
+    xMin: -0.1
+    xMax: 0.1
+    yMin: -1
+    yMax: -0.9
+    thighRotation: -45
+    calfRotation: 3
+    localRotation: {x: -181.3, y: -10.4, z: -26.3}
     inputTolerance: 0
     moveLevel: 0
     followUpMoves: []
