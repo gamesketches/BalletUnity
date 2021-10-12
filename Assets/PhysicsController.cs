@@ -21,7 +21,7 @@ public class PhysicsController : MonoBehaviour
 	public bool useFaker = false;
 	bool changingLevel;
 	InputFaker inputFaker;
-	Vector3 leftStick, rightStick;
+	Vector2 leftStick, leftStickVelocity, rightStick, rightStickVelocity;
 	float calfFlexValue;
 	MoveData curMove;
 	bool leftBumper, rightBumper, leftStickDown, rightStickDown;
@@ -35,6 +35,8 @@ public class PhysicsController : MonoBehaviour
         firstPosThigh = transform.rotation;
 		thighLook = rightLeg.thigh.forward;
 		inputFaker = GetComponent<InputFaker>();
+		leftStickVelocity = Vector3.zero;
+		rightStickVelocity = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -70,14 +72,18 @@ public class PhysicsController : MonoBehaviour
 	void UpdateInputs() {
 		var gamepad = Gamepad.current;
 		if(gamepad == null || useFaker) {
+			leftStickVelocity = GetUpdatedVelocity(leftStick, inputFaker.leftStick);
 			leftStick = inputFaker.leftStick;
+			rightStickVelocity = GetUpdatedVelocity(rightStick, inputFaker.rightStick);
 			rightStick = inputFaker.rightStick;
 			calfFlexValue = inputFaker.leftCalfTrigger;
 			leftBumper = inputFaker.leftBumper;
 			rightBumper = inputFaker.rightBumper;
 		} else {
 			calfFlexValue = gamepad.leftTrigger.ReadValue();
+			leftStickVelocity = GetUpdatedVelocity(leftStick, gamepad.leftStick.ReadValue());
 			leftStick = gamepad.leftStick.ReadValue();
+			rightStickVelocity = GetUpdatedVelocity(rightStick, gamepad.rightStick.ReadValue());
 			rightStick = gamepad.rightStick.ReadValue();
 			leftStickDown = gamepad.leftStickButton.isPressed;
 			rightStickDown = gamepad.rightStickButton.isPressed;
@@ -129,6 +135,9 @@ public class PhysicsController : MonoBehaviour
 
 	Quaternion CalculateGroundedThigh(Vector2 joystickVals, MoveData curMove) {
 		float groundedOffset = 0.7f;
+		if(joystickVals.x < -0.1f) {
+			groundedOffset = 0.8f;
+		}
 		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
 		float xVal = Mathf.Clamp(-90 + -Mathf.Acos(-joystickVals.x * groundedOffset) *Mathf.Rad2Deg, -208f, -140f);
 		float yVal = thighRotation;//firstPosThigh.eulerAngles.y,
@@ -167,10 +176,13 @@ public class PhysicsController : MonoBehaviour
 
 	Quaternion CalculateThighMidLevel(Vector2 joystickVals, MoveData curMove) {
 		float midLevelOffset = 0.7f;
-		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;//firstPosThigh.eulerAngles.y
+		if(joystickVals.x < -0.1f) {
+			midLevelOffset = 0.8f;
+		}
+		float thighRotation = curMove == null ? firstPosThigh.eulerAngles.y : curMove.thighRotation;
 		float xVal = (-90 + -Mathf.Acos(-joystickVals.x *midLevelOffset) *Mathf.Rad2Deg);
 		float yVal = thighRotation;
-		float zVal = Mathf.Asin(joystickVals.y) *Mathf.Rad2Deg;
+		float zVal = Mathf.Asin(joystickVals.y * midLevelOffset) *Mathf.Rad2Deg;
 		if(zVal > 0) zVal = 0;
 		return Quaternion.Euler(xVal, yVal, zVal);
 	}
@@ -243,7 +255,10 @@ public class PhysicsController : MonoBehaviour
 			curPos.y = 0;
 		}
 		bodyTransform.position = curPos;
-			
+	}
+
+	Vector2 GetUpdatedVelocity(Vector2 lastPos, Vector2 newPos) {
+		return newPos - lastPos;
 	}
 }
 

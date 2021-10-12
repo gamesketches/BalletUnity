@@ -9,13 +9,14 @@ public class MoveInterpreter : MonoBehaviour
 	public List<MoveData> midLevelMoveSet;
 	public List<MoveData> upperLevelMoveSet;
 	public static MoveInterpreter instance;
-	MoveData curMove;
+	MoveData curMove, lastMove;
 	public float tolerance = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
 		instance = this;
         //InitializeMoveSet();
+		InitializeFollowUpMoves(lowMoveSet);
     }
 
     // Update is called once per frame
@@ -60,6 +61,18 @@ public class MoveInterpreter : MonoBehaviour
 		return null;
 	}
 
+	void InitializeFollowUpMoves(List<MoveData> moves) {
+		foreach(MoveData move in moves) {
+			foreach(string moveName in move.followUpMoves) {
+				for(int i = 0; i < moves.Count; i++) {
+					if(moves[i].displayString == moveName) {
+						move.AddFollowUpMoveData(moves[i]);
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 [System.Serializable]
@@ -72,6 +85,8 @@ public class MoveData {
 	Quaternion calcedRotation;
 	public float inputTolerance = 0.01f;
 	public MoveLevel moveLevel;
+	public string[] followUpMoves;
+	MoveData[] followUpMoveData;
 	
 	public MoveData(MoveType theMove, float minX, float maxX, float minY, float maxY, Vector3 moveRotation, float thigh, float calf, MoveLevel level = MoveLevel.Low, float tolerance = 0.01f) {
 		moveType = theMove;
@@ -109,5 +124,32 @@ public class MoveData {
 		if(this.calcedRotation == null) this.calcedRotation = Quaternion.Euler(this.localRotation);
 		Debug.Log(Quaternion.Euler(this.localRotation));
 		return Quaternion.Euler(this.localRotation);
+	}
+
+	public void AddFollowUpMoveData(MoveData followUpMove) {
+		List<MoveData> temp = new List<MoveData>(followUpMoveData);
+		temp.Add(followUpMove);
+		followUpMoveData = temp.ToArray();
+	}
+
+	public Vector2 GetTargetPoint() {
+		float xVal = Mathf.Lerp(xMin, xMax, 0.5f);
+		float yVal = Mathf.Lerp(yMin, yMax, 0.5f);
+		return new Vector2(xVal, yVal);
+	}
+
+	public MoveData FindMostLikelyFollowUp(Vector2 velocity) {
+		Vector2 originPoint = this.GetTargetPoint();
+		float bestDistance = 1000;
+		MoveData followUp = null; 
+		for(int i = 0; i < followUpMoveData.Length; i++) {
+			Vector2 targetPoint = followUpMoveData[i].GetTargetPoint();
+			float newDistance = Vector2.Distance(originPoint + velocity, targetPoint);
+			if(newDistance < bestDistance) {
+				bestDistance = newDistance;
+				followUp = followUpMoveData[i];
+			}
+		}
+		return followUp;
 	}
 }
