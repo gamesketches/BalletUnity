@@ -630,27 +630,27 @@ PrefabInstance:
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.04120163
+      value: 0.298136
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.9960599
+      value: -0.9537944
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.066154
+      value: -0.0076499884
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.04231744
+      value: -0.036505897
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -174.97
+      value: -145.3
       objectReference: {fileID: 0}
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
@@ -660,7 +660,7 @@ PrefabInstance:
     - target: {fileID: 5388706932149115671, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -7.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 45188f442dd8d41aba6555c7bfa51f4f,
         type: 3}
@@ -1205,7 +1205,7 @@ MonoBehaviour:
     yMax: 0.05
     thighRotation: -45
     calfRotation: 3
-    localRotation: {x: -174.7, y: -45.18597, z: 1.460999}
+    localRotation: {x: -204, y: 4.4, z: 5}
     inputTolerance: 0
     moveLevel: 0
     followUpMoves: []
@@ -1221,7 +1221,55 @@ MonoBehaviour:
     inputTolerance: 0
     moveLevel: 0
     followUpMoves: []
-  midLevelMoveSet: []
+  - displayString: TenduBack
+    moveType: 2
+    xMin: -0.9
+    xMax: -1
+    yMin: -0.05
+    yMax: 0.05
+    thighRotation: -45
+    calfRotation: 3
+    localRotation: {x: -145, y: -10.4, z: -26.3}
+    inputTolerance: 0
+    moveLevel: 0
+    followUpMoves: []
+  midLevelMoveSet:
+  - displayString: DegageFront
+    moveType: 3
+    xMin: 0.9
+    xMax: 1
+    yMin: -0.05
+    yMax: 0.05
+    thighRotation: -45
+    calfRotation: 3
+    localRotation: {x: -228.8, y: 0, z: 0}
+    inputTolerance: 0
+    moveLevel: 1
+    followUpMoves: []
+  - displayString: DegageSide
+    moveType: 4
+    xMin: 0
+    xMax: 0
+    yMin: 0
+    yMax: 0
+    thighRotation: 0
+    calfRotation: 0
+    localRotation: {x: 0, y: 0, z: 0}
+    inputTolerance: 0
+    moveLevel: 1
+    followUpMoves: []
+  - displayString: DegageBack
+    moveType: 5
+    xMin: 0
+    xMax: 0
+    yMin: 0
+    yMax: 0
+    thighRotation: 0
+    calfRotation: 0
+    localRotation: {x: 0, y: 0, z: 0}
+    inputTolerance: 0
+    moveLevel: 1
+    followUpMoves: []
   upperLevelMoveSet: []
   tolerance: 0.01
 --- !u!4 &1941682211 stripped
