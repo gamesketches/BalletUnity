@@ -115,9 +115,15 @@ public class MoveData {
 	}
 
 	public bool WithinParameters(float xVal, float yVal) {
-		bool x = xMin <= xVal && xVal <= xMax;
-		bool y = yMin <= yVal && yVal <= yMax;
+		bool x = CheckBetween(xMin, xMax, xVal);
+		bool y = CheckBetween(yMin, yMax, yVal);
+		//bool x = xMin <= xVal && xVal <= xMax;
+		//bool y = yMin <= yVal && yVal <= yMax;
 		return x && y;
+	}
+
+	bool CheckBetween(float val1, float val2, float target) {
+		return (val1 < target && target < val2) || (val1 > target && target > val2);
 	}
 
 	public Quaternion MoveRotationVal() {
