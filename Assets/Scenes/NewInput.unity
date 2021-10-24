@@ -1196,7 +1196,8 @@ MonoBehaviour:
     localRotation: {x: -177.2, y: -6.9, z: 1.460999}
     inputTolerance: 0
     moveLevel: 0
-    followUpMoves: []
+    followUpMoves:
+    - TenduFront
   - displayString: TenduFront
     moveType: 0
     xMin: 0.9

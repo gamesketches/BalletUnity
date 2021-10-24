@@ -9,12 +9,13 @@ public class MoveInterpreter : MonoBehaviour
 	public List<MoveData> midLevelMoveSet;
 	public List<MoveData> upperLevelMoveSet;
 	public static MoveInterpreter instance;
-	MoveData curMove, lastMove;
+	MoveData curMove, lastMove, tweenMove;
 	public float tolerance = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
 		instance = this;
+		tweenMove = new MoveData(MoveType.Tween, 0, 0, 0, 0, Vector3.zero, 0, 0);
         //InitializeMoveSet();
 		InitializeFollowUpMoves(lowMoveSet);
     }
@@ -26,12 +27,33 @@ public class MoveInterpreter : MonoBehaviour
     }
 
 
-	public MoveData AssessMoveType(float xVal, float yVal, bool leftBumper, bool rightBumper) {
+	public MoveData AssessMoveType(float xVal, float yVal, bool leftBumper, bool rightBumper, 
+																Vector2 velocity) {
+		MoveData theMove;
 		if(leftBumper) {
-			if(rightBumper) return AssessHighMoveType(xVal, yVal);
-			else return AssessMidMoveType(xVal, yVal);
+			if(rightBumper) theMove = AssessHighMoveType(xVal, yVal);
+			else theMove = AssessMidMoveType(xVal, yVal);
+		} else {
+			theMove = AssessGroundedMoveType(xVal, yVal);
 		}
-		return AssessGroundedMoveType(xVal, yVal);
+		if(theMove == null) {
+			Debug.Log("the move is null");
+			if(curMove != null) {
+				Debug.Log("Doing tweening");
+				lastMove = curMove;
+				curMove = null;
+			} 
+			if(lastMove != null) {
+				MoveData targetMove = lastMove.FindMostLikelyFollowUp(velocity);
+				float lerpProportion = FindRotationProportion(lastMove, targetMove, xVal, yVal);
+				tweenMove.localRotation = Vector3.Lerp(lastMove.localRotation, targetMove.localRotation, 
+																								lerpProportion);
+				theMove = tweenMove;
+			}
+		} else {
+			curMove = theMove;
+		}
+		return theMove;
 	}
 
 	public MoveData AssessGroundedMoveType(float xVal, float yVal) {
@@ -64,14 +86,29 @@ public class MoveInterpreter : MonoBehaviour
 	void InitializeFollowUpMoves(List<MoveData> moves) {
 		foreach(MoveData move in moves) {
 			foreach(string moveName in move.followUpMoves) {
+				Debug.Log("looking for followup move: " + moveName);
 				for(int i = 0; i < moves.Count; i++) {
 					if(moves[i].displayString == moveName) {
 						move.AddFollowUpMoveData(moves[i]);
+						Debug.Log("Added follow up move " + moveName);
 						break;
 					}
 				}
 			}
 		}
+	}
+
+	float FindRotationProportion(MoveData startMove, MoveData endMove, float xVal, float yVal) {
+		Vector2 curVector = new Vector2(xVal, yVal);
+		Vector2 startTarget = startMove.GetTargetPoint();
+		Vector2 endTarget = endMove.GetTargetPoint();
+		float distanceFromStart = Vector2.Distance(startTarget, curVector);
+		float distanceFromEnd = Vector2.Distance(curVector, endTarget);
+		if(distanceFromStart == 0) return 0;
+		else if(distanceFromEnd == 0) return 1;
+		float proportion = distanceFromStart / (distanceFromStart + distanceFromEnd);
+		Debug.Log(proportion);
+		return proportion;
 	}
 }
 
@@ -112,6 +149,7 @@ public class MoveData {
 		moveType = theMove;
 		displayString = theMove.ToString();
 		inputTolerance = tolerance;
+		followUpMoveData = new MoveData[0];
 	}
 
 	public bool WithinParameters(float xVal, float yVal) {
@@ -128,12 +166,13 @@ public class MoveData {
 
 	public Quaternion MoveRotationVal() {
 		if(this.calcedRotation == null) this.calcedRotation = Quaternion.Euler(this.localRotation);
-		Debug.Log(Quaternion.Euler(this.localRotation));
 		return Quaternion.Euler(this.localRotation);
 	}
 
 	public void AddFollowUpMoveData(MoveData followUpMove) {
-		List<MoveData> temp = new List<MoveData>(followUpMoveData);
+		List<MoveData> temp;
+		if(this.followUpMoveData != null) temp = new List<MoveData>(this.followUpMoveData);
+		else temp = new List<MoveData>();
 		temp.Add(followUpMove);
 		followUpMoveData = temp.ToArray();
 	}

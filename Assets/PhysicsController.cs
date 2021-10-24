@@ -43,7 +43,7 @@ public class PhysicsController : MonoBehaviour
     void Update()
     {
 		UpdateInputs();
-		MoveData newCurMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y, leftBumper, rightBumper);
+		MoveData newCurMove = MoveInterpreter.instance.AssessMoveType(leftStick.x, leftStick.y, leftBumper, rightBumper, leftStickVelocity);
 		Debug.Log("X: " + leftStick.x.ToString() + ", Y: " + leftStick.y.ToString());
 		float calfRotation = 0;
 		if(newCurMove != curMove && !changingLevel) {
