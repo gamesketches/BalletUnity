@@ -5,9 +5,11 @@ using UnityEngine;
 public enum MoveLevel {Low, Mid, High};
 public class MoveInterpreter : MonoBehaviour
 {
+	public bool doMoveInterpolation;
 	public List<MoveData> lowMoveSet;
 	public List<MoveData> midLevelMoveSet;
 	public List<MoveData> upperLevelMoveSet;
+	List<MoveData> curFollowUpMoves;
 	public static MoveInterpreter instance;
 	MoveData curMove, lastMove, tweenMove;
 	public float tolerance = 0.01f;
@@ -16,8 +18,8 @@ public class MoveInterpreter : MonoBehaviour
     {
 		instance = this;
 		tweenMove = new MoveData(MoveType.Tween, 0, 0, 0, 0, Vector3.zero, 0, 0);
-        //InitializeMoveSet();
-		InitializeFollowUpMoves(lowMoveSet);
+		curFollowUpMoves = new List<MoveData>();
+		//InitializeFollowUpMoves(lowMoveSet);
     }
 
     // Update is called once per frame
@@ -44,14 +46,24 @@ public class MoveInterpreter : MonoBehaviour
 				curMove = null;
 			} 
 			if(lastMove != null) {
-				MoveData targetMove = lastMove.FindMostLikelyFollowUp(velocity);
-				float lerpProportion = FindRotationProportion(lastMove, targetMove, xVal, yVal);
-				tweenMove.localRotation = Vector3.Lerp(lastMove.localRotation, targetMove.localRotation, 
-																								lerpProportion);
-				theMove = tweenMove;
+				if(doMoveInterpolation) {
+					Vector2 curPos = new Vector2(xVal, yVal);
+					MoveData targetMove = lastMove.FindMostLikelyFollowUp(curPos, velocity, curFollowUpMoves.ToArray());
+					Debug.Log(targetMove.displayString);
+					float lerpProportion = FindRotationProportion(lastMove, targetMove, xVal, yVal);
+					tweenMove.localRotation = Vector3.Lerp(lastMove.localRotation, targetMove.localRotation, 
+																									lerpProportion);
+					theMove = tweenMove;
+				}
 			}
 		} else {
 			curMove = theMove;
+			if(leftBumper) {
+				if(rightBumper) GetFollowUpMoves(upperLevelMoveSet);
+				else GetFollowUpMoves(midLevelMoveSet);
+			} else {
+				GetFollowUpMoves(lowMoveSet);
+			}
 		}
 		return theMove;
 	}
@@ -93,6 +105,17 @@ public class MoveInterpreter : MonoBehaviour
 						Debug.Log("Added follow up move " + moveName);
 						break;
 					}
+				}
+			}
+		}
+	}
+
+	void GetFollowUpMoves(List<MoveData> potentialFollowUps) {
+		curFollowUpMoves.Clear();
+		foreach(string moveName in curMove.followUpMoves) {
+			for(int i = 0; i < potentialFollowUps.Count; i++) {
+				if(potentialFollowUps[i].displayString == moveName) {
+					curFollowUpMoves.Add(potentialFollowUps[i]);
 				}
 			}
 		}
@@ -183,16 +206,17 @@ public class MoveData {
 		return new Vector2(xVal, yVal);
 	}
 
-	public MoveData FindMostLikelyFollowUp(Vector2 velocity) {
+	public MoveData FindMostLikelyFollowUp(Vector2 curPos, Vector2 velocity, MoveData[] followUps) {
 		Vector2 originPoint = this.GetTargetPoint();
 		float bestDistance = 1000;
 		MoveData followUp = null; 
-		for(int i = 0; i < followUpMoveData.Length; i++) {
-			Vector2 targetPoint = followUpMoveData[i].GetTargetPoint();
-			float newDistance = Vector2.Distance(originPoint + velocity, targetPoint);
+		for(int i = 0; i < followUps.Length; i++) {
+		//for(int i = 0; i < followUpMoveData.Length; i++) {
+			Vector2 targetPoint = followUps[i].GetTargetPoint();
+			float newDistance = Vector2.Distance(curPos + velocity, targetPoint);
 			if(newDistance < bestDistance) {
 				bestDistance = newDistance;
-				followUp = followUpMoveData[i];
+				followUp = followUps[i];
 			}
 		}
 		return followUp;

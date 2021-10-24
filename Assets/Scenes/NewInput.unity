@@ -1184,6 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce58e66932c3e49a7b1f69101b467a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doMoveInterpolation: 1
   lowMoveSet:
   - displayString: Neutral
     moveType: 12
@@ -1198,6 +1199,8 @@ MonoBehaviour:
     moveLevel: 0
     followUpMoves:
     - TenduFront
+    - TenduBack
+    - TenduSide
   - displayString: TenduFront
     moveType: 0
     xMin: 0.9
@@ -1209,7 +1212,9 @@ MonoBehaviour:
     localRotation: {x: -204, y: 5, z: 5}
     inputTolerance: 0
     moveLevel: 0
-    followUpMoves: []
+    followUpMoves:
+    - Neutral
+    - TenduSide
   - displayString: TenduSide
     moveType: 1
     xMin: -0.15
@@ -1221,7 +1226,10 @@ MonoBehaviour:
     localRotation: {x: -186.34, y: -3.8, z: -26.69}
     inputTolerance: 0
     moveLevel: 0
-    followUpMoves: []
+    followUpMoves:
+    - Neutral
+    - TenduFront
+    - TenduBack
   - displayString: TenduBack
     moveType: 2
     xMin: -1
@@ -1233,7 +1241,9 @@ MonoBehaviour:
     localRotation: {x: -145.1, y: -5.3, z: -7.2}
     inputTolerance: 0
     moveLevel: 0
-    followUpMoves: []
+    followUpMoves:
+    - Neutral
+    - TenduSide
   midLevelMoveSet:
   - displayString: DegageFront
     moveType: 3
