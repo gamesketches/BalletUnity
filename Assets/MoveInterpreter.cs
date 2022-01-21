@@ -49,7 +49,7 @@ public class MoveInterpreter : MonoBehaviour
 				if(doMoveInterpolation) {
 					Vector2 curPos = new Vector2(xVal, yVal);
 					MoveData targetMove = lastMove.FindMostLikelyFollowUp(curPos, velocity, curFollowUpMoves.ToArray());
-					Debug.Log(targetMove.displayString);
+//					Debug.Log(targetMove.displayString);
 					float lerpProportion = FindRotationProportion(lastMove, targetMove, xVal, yVal);
 					tweenMove.localRotation = Vector3.Lerp(lastMove.localRotation, targetMove.localRotation, 
 																									lerpProportion);
